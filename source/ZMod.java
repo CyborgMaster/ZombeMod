@@ -797,7 +797,7 @@ public final class ZMod {
             if(modSunEnabled && sunTimeOffset != 0) time += sunTimeOffset;
             // your location
             info += "Your position:   §9" + x + "§f , §9" + y + "§f , §9" + z + "§f    Fog: §9" + getViewDistance() + "§f    Exp-orbs: §9" + player.entXpTotal;
-            if(y >= 0) info += "\n  Light level:   §9" + getLightLevel(x,y,z) + "§f   (   min: §8"+getLightLevel(x,y,z,16)+"§f   max: §e"+getLightLevel(x,y,z,0)+"§f   )"; // current light level, min, max
+            if(y >= 1) info += "\n  Light level:   §9" + getLightLevel(x,y-1,z) + "§f   (   min: §8"+getLightLevel(x,y-1,z,16)+"§f   max: §e"+getLightLevel(x,y-1,z,0)+"§f   )"; // current light level, min, max
             info += "\n  Biome:   §9" + getBiomeName(x,z); // biome
 //            val = getTemp(); if(!Float.isNaN(val)) info += "§f   temp = §9" + (int)(val * 40) + "§f C";
 //            val = getHumid(); if(!Float.isNaN(val)) info += "§f   humid = §9" + (int)(val * 100) + "§f %";
@@ -886,6 +886,7 @@ public final class ZMod {
                 if(cnt==0) tmp += "§4none";
                 info += "\nPlayers nearby (§9" + cnt + "§f):  " + tmp;
             }
+			info += "\nJEREMY's CODE!!!";
             setMsg(MINFO, info);
         }
     }
