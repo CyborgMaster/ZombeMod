@@ -1,0 +1,5 @@
+syntax: glob
+source/class_in/*
+source/class_out/*
+source/tmp/*
+source/mod.zip

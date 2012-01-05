@@ -1,5 +1,5 @@
 @echo off
-cls
+::cls
 
 call config.cmd
 
