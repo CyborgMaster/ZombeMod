@@ -12,20 +12,34 @@ import java.nio.*;
 public final class ZMod {
     public static final String version = "5.8";
     
-    // ########################################################################################################################### Consts / lookups
-    private static final int KNOWN     = 0x00000001, SOLID    = 0x00000002, LIQUID  = 0x00000004, CRAFT  = 0x00000008,
-                             BASIC     = 0x00000010, SPACE    = 0x00000020, TREE    = 0x00000040, GRASS  = 0x00000080,
-                             COBBLE    = 0x00000100, DECAL    = 0x00000200, SAND    = 0x00000400, GRAVEL = 0x00000800,
-                             ORE       = 0x00001000, OBSIDIAN = 0x00002000, SPAWN   = 0x00004000, TOUCH  = 0x00008000,
-                             SANDSTONE = 0x00010000, GROW     = 0x00020000, STORAGE = 0x00040000, EMPTY  = 0x00080000;
-    private static final int GHAST=1, COW=2, SPIDER=3, SHEEP=4, SKELLY=5, CREEPER=6, ZOMBIE=7, SLIME=8, PIG=9, CHICKEN=10,
-                             SQUID=11, PIGZOMBIE=12, PLAYER=13, LIVING=14, WOLF=15, CAVESPIDER=16, ENDERMAN=17, SILVERFISH=18,
-                             LAVASLIME=19, REDCOW=20, VILLAGER=21, SNOWMAN=22, BLAZE=23, DRAGON=24, MAXTYPE=25;
-    private static final String typeName[] = { "???", "Ghast", "Cow", "Spider", "Sheep", "Skeleton", "Creeper", "Zombie",
-                             "Slime", "Pig", "Chicken", "Squid", "PigZombie", "Player", "UnknownCreature", "Wolf", "CaveSpider",
-                             "Enderman", "Silverfish", "LavaSlime", "MushroomCow", "Villager", "SnowMan", "Blaze", "EnderDragon" }; // omitting "Giant"
-    private static final int IGNORE = 0, NAMEMAP = 1, RECIPES = 2, FUEL = 3, SMELTING = 4, ITEMS = 5;
-    private static final int MTAG1 = 0, MTAG2 = 1, MINFO = 2, MERR = 3, MDEBUG = 4, MTAGR = 5, MAXMSG = 6;
+    // ######################## Consts / lookups ###############################
+    private static final int KNOWN   = 0x00000001, SOLID     = 0x00000002,
+        LIQUID = 0x00000004, CRAFT   = 0x00000008, BASIC     = 0x00000010,
+        SPACE  = 0x00000020, TREE    = 0x00000040, GRASS     = 0x00000080,
+        COBBLE = 0x00000100, DECAL   = 0x00000200, SAND      = 0x00000400,
+        GRAVEL = 0x00000800, ORE     = 0x00001000, OBSIDIAN  = 0x00002000,
+        SPAWN  = 0x00004000, TOUCH   = 0x00008000, SANDSTONE = 0x00010000,
+        GROW   = 0x00020000, STORAGE = 0x00040000, EMPTY     = 0x00080000;
+    
+    private static final int GHAST=1, COW=2, SPIDER=3, SHEEP=4, SKELLY=5,
+        CREEPER=6, ZOMBIE=7, SLIME=8, PIG=9, CHICKEN=10,SQUID=11,
+        PIGZOMBIE=12, PLAYER=13, LIVING=14, WOLF=15, CAVESPIDER=16,
+        ENDERMAN=17, SILVERFISH=18,LAVASLIME=19, REDCOW=20, VILLAGER=21,
+        SNOWMAN=22, BLAZE=23, DRAGON=24, MAXTYPE=25;
+    
+    private static final String typeName[] =
+    { "???", "Ghast", "Cow", "Spider", "Sheep", "Skeleton", "Creeper", "Zombie",
+      "Slime", "Pig", "Chicken", "Squid", "PigZombie", "Player",
+      "UnknownCreature", "Wolf", "CaveSpider","Enderman", "Silverfish",
+      "LavaSlime", "MushroomCow", "Villager", "SnowMan", "Blaze",
+      "EnderDragon" }; // omitting "Giant"
+    
+    private static final int IGNORE = 0, NAMEMAP = 1, RECIPES = 2,
+        FUEL = 3, SMELTING = 4, ITEMS = 5;
+    private static final int MTAG1 = 0, MTAG2 = 1, MINFO = 2, MERR = 3,
+        MDEBUG = 4, MTAGR = 5, MAXMSG = 6;
+
+    private static final int SPAWNERID = 52;
     private static int block[] = new int[256];
     private static void initBlockLookupArray() {
         block[  0] = KNOWN | SPACE | BASIC | EMPTY; // air
@@ -2115,7 +2129,8 @@ public final class ZMod {
     private static boolean modSafeEnabled;
     private static String tagSafe;
     private static int keySafeShow;
-    private static Mark optSafeDangerColor, optSafeDangerColorSun;
+    private static Mark optSafeDangerColor, optSafeDangerColorSun,
+        optSafeSafeColor;
     private static boolean optSafeShowWithSun;
     private static final int safeMax = 36000; //2048;
     private static Mark safeMark[];
@@ -2127,6 +2142,7 @@ public final class ZMod {
         log("info: loading config for \"safe\"");
         optSafeDangerColor = getColor("optSafeDangerColor", 0xff0000);
         optSafeDangerColorSun = getColor("optSafeDangerColorSun", 0xdddd00);
+        optSafeSafeColor = getColor("optSafeSafeColor", 0x00ff00);
         tagSafe = getString("tagSafe", "safe");
         optionsModSafe();
         return true;
@@ -2159,68 +2175,92 @@ public final class ZMod {
         GL11.glBegin(GL11.GL_LINES);
         for(int i=0;i<safeCur;i++) {
             Mark got = safeMark[i];
-            if(got.r==1)
-                GL11.glColor3ub(optSafeDangerColorSun.r,optSafeDangerColorSun.g,
-                                optSafeDangerColorSun.b);
-            else
-                GL11.glColor3ub(optSafeDangerColor.r,optSafeDangerColor.
-                                g,optSafeDangerColor.b);
             mx = got.x - x; my = got.y - y; mz = got.z - z;
 
-            float sx, sy, sz, ex, ey, ez; //represents the corner of the block
-            sx = mx-0.5f + .01f;
-            sy = my-.13f + .01f;
-            sz = mz-0.5f + .01f;
-            ex = sx + 0.98f;
-            ey = sy + 0.98f;
-            ez = sz + 0.98f;
-            /*
-            GL11.glVertex3f(sx,sy,sz);
-            GL11.glVertex3f(sx,sy,ez);
-            GL11.glVertex3f(ex,sy,ez);
-            GL11.glVertex3f(ex,sy,sz);
-            */
-            /*
-            GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,sy,ez);
-            GL11.glVertex3f(sx,ey,ez); GL11.glVertex3f(sx,ey,sz);
+            if (got.r == 2) { //spawner mark
+                GL11.glColor3ub(optSafeSafeColor.r,optSafeSafeColor.g,
+                                    optSafeSafeColor.b);
 
-            GL11.glVertex3f(ex,sy,sz); GL11.glVertex3f(ex,sy,ez);
-            GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,ey,sz);
+                float sx, sy, sz, ex, ey, ez; //represents the faces of the block
+                
+                //Inset lines
+                sx = mx + .01f;
+                sy = my + .01f;
+                sz = mz + .01f;
+                ex = sx + 0.98f;
+                ey = sy + 0.98f;
+                ez = sz + 0.98f;
+                
 
-            GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,sy,ez);
-            GL11.glVertex3f(ex,sy,ez); GL11.glVertex3f(ex,sy,sz);
+                /*
+                //Outset lines
+                sx = mx - .01f;
+                sy = my - .01f;
+                sz = mz - .01f;
+                ex = sx + 1.02f;
+                ey = sy + 1.02f;
+                ez = sz + 1.02f;
+                */
+                
+                /*
+                  GL11.glVertex3f(sx,sy,sz);
+                  GL11.glVertex3f(sx,sy,ez);
+                  GL11.glVertex3f(ex,sy,ez);
+                  GL11.glVertex3f(ex,sy,sz);
+                */
+                /*
+                  GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,sy,ez);
+                  GL11.glVertex3f(sx,ey,ez); GL11.glVertex3f(sx,ey,sz);
 
-            GL11.glVertex3f(sx,ey,sz); GL11.glVertex3f(sx,ey,ez);
-            GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,ey,sz);
+                  GL11.glVertex3f(ex,sy,sz); GL11.glVertex3f(ex,sy,ez);
+                  GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,ey,sz);
 
-            GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,ey,sz);
-            GL11.glVertex3f(ex,ey,sz); GL11.glVertex3f(ex,sy,sz);
+                  GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,sy,ez);
+                  GL11.glVertex3f(ex,sy,ez); GL11.glVertex3f(ex,sy,sz);
+
+                  GL11.glVertex3f(sx,ey,sz); GL11.glVertex3f(sx,ey,ez);
+                  GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,ey,sz);
+
+                  GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,ey,sz);
+                  GL11.glVertex3f(ex,ey,sz); GL11.glVertex3f(ex,sy,sz);
             
-            GL11.glVertex3f(sx,sy,ez); GL11.glVertex3f(sx,ey,ez);
-            GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,sy,ez);
-            */
-            
-            GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,sy,ez);
-            GL11.glVertex3f(sx,sy,ez); GL11.glVertex3f(sx,ey,ez);
-            GL11.glVertex3f(sx,ey,ez); GL11.glVertex3f(sx,ey,sz);
-            GL11.glVertex3f(sx,ey,sz); GL11.glVertex3f(sx,sy,sz);
+                  GL11.glVertex3f(sx,sy,ez); GL11.glVertex3f(sx,ey,ez);
+                  GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,sy,ez);
+                */
+                
+                GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,sy,ez);
+                GL11.glVertex3f(sx,sy,ez); GL11.glVertex3f(sx,ey,ez);
+                GL11.glVertex3f(sx,ey,ez); GL11.glVertex3f(sx,ey,sz);
+                GL11.glVertex3f(sx,ey,sz); GL11.glVertex3f(sx,sy,sz);
 
-            GL11.glVertex3f(ex,sy,sz); GL11.glVertex3f(ex,sy,ez);
-            GL11.glVertex3f(ex,sy,ez); GL11.glVertex3f(ex,ey,ez);
-            GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,ey,sz);
-            GL11.glVertex3f(ex,ey,sz); GL11.glVertex3f(ex,sy,sz);
+                GL11.glVertex3f(ex,sy,sz); GL11.glVertex3f(ex,sy,ez);
+                GL11.glVertex3f(ex,sy,ez); GL11.glVertex3f(ex,ey,ez);
+                GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,ey,sz);
+                GL11.glVertex3f(ex,ey,sz); GL11.glVertex3f(ex,sy,sz);
 
-            GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(ex,sy,sz);
-            GL11.glVertex3f(sx,sy,ez); GL11.glVertex3f(ex,sy,ez);
-            GL11.glVertex3f(sx,ey,ez); GL11.glVertex3f(ex,ey,ez);
-            GL11.glVertex3f(sx,ey,sz); GL11.glVertex3f(ex,ey,sz);
+                GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(ex,sy,sz);
+                GL11.glVertex3f(sx,sy,ez); GL11.glVertex3f(ex,sy,ez);
+                GL11.glVertex3f(sx,ey,ez); GL11.glVertex3f(ex,ey,ez);
+                GL11.glVertex3f(sx,ey,sz); GL11.glVertex3f(ex,ey,sz);
+
+            } else {
+                if(got.r==1)
+                    GL11.glColor3ub(optSafeDangerColorSun.r,optSafeDangerColorSun.g,
+                                    optSafeDangerColorSun.b);
+                else
+                    GL11.glColor3ub(optSafeDangerColor.r,optSafeDangerColor.
+                                    g,optSafeDangerColor.b);
+
+                GL11.glVertex3f(mx+0.5f,my,mz+0.5f); GL11.glVertex3f(mx-0.5f,my,mz-0.5f);
+                GL11.glVertex3f(mx+0.5f,my,mz-0.5f); GL11.glVertex3f(mx-0.5f,my,mz+0.5f);
+            }
         }
+
         GL11.glEnd();
         //GL11.glDisable(GL11.GL_BLEND);
         //GL11.glEnable(GL11.GL_CULL_FACE);
         //GL11.glDepthMask(true);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
-
 /*
         GL11.glEnable(GL11.GL_BLEND); GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GL11.glColor4ub((byte)255,(byte)64,(byte)32,(byte)32);
@@ -2257,20 +2297,35 @@ public final class ZMod {
         }
         for(int x=pX-16;x<pX+16;x++) for(int y=pY-16;y<pY+16;y++) for(int z=pZ-16;z<pZ+16;z++) {
             int onWhat;
-            // UPDATE: ensure the spawn check has not changed - search: completed * find the can-spawn function there
-            //if(((onWhat = block[mapXGetId(x,y,z)]) & maskA) == 0) continue; // !eb1.g(i, j - 1, k)
-            //if((onWhat & maskL) != 0) continue; // spawn limitations from "spawn" mod
-            if((block[mapXGetId(x,y+1,z)] & maskB) != 0) continue; // eb1.g(i, j, k) || eb1.f(i, j, k).d()
-            //if((block[mapXGetId(x,y+2,z)] & maskC) != 0) continue; // eb1.g(i, j + 1, k)
-            // light level check
-            if(getLightLevel(x, y+1, z, 16) > 7) continue;
-            safeMark[safeCur++] = new Mark(x,y+1,z, optSafeShowWithSun && (getLightLevel(x, y+1, z, 0) > 7));
-            if(safeCur == safeMax) return;
+            // UPDATE: ensure the spawn check has not changed -
+            // search: completed * find the can-spawn function there
+
+            if (mapXGetId(x,y,z) == SPAWNERID) {
+                //check all around the spawner for spawn locations
+                for (int sx = x - 4; sx <= x + 4; sx++)
+                for (int sy = y - 1; sy <=  y + 1; sy++)
+                for (int sz = z - 4; sz <= z + 4; sz++) {
+                    //only show air blocks
+                    if ((block[mapXGetId(sx,sy,sz)] & maskB) != 0) continue;
+                    //only show safe blocks
+                    if (getLightLevel(sx, sy, sz, 16) <= 7) continue;
+                    safeMark[safeCur++] = new Mark(sx,sy,sz);
+                    if(safeCur == safeMax) return;
+                }
+            } else {
+                if(((onWhat = block[mapXGetId(x,y,z)]) & maskA) == 0) continue; // !eb1.g(i, j - 1, k)
+                if((onWhat & maskL) != 0) continue; // spawn limitations from "spawn" mod
+                if((block[mapXGetId(x,y+1,z)] & maskB) != 0) continue; // eb1.g(i, j, k) || eb1.f(i, j, k).d()
+                if((block[mapXGetId(x,y+2,z)] & maskC) != 0) continue; // eb1.g(i, j + 1, k)
+                // light level check
+                if(getLightLevel(x, y+1, z, 16) > 7) continue;
+                safeMark[safeCur++] = new Mark(x,y+1,z, optSafeShowWithSun && (getLightLevel(x, y+1, z, 0) > 7));
+                if(safeCur == safeMax) return;
+            }
         }
     }
-    
-    
-    // ===========================================================================================================================
+
+    // ========================================================================
     private static boolean modBoomEnabled;
     private static int optBoomSafeRange;
     private static float optBoomDropOreChance, optBoomDropChance, optBoomScaleTNT, optBoomScaleCreeper, optBoomScaleFireball;
@@ -3235,7 +3290,20 @@ public final class ZMod {
         public byte r,g,b,a;
         public Mark() { }
         // safe mark
-        public Mark(int bx, int by, int bz, boolean sun) { x = 0.5f + bx; y = by + 0.13f; z = 0.5f + bz; r = sun ? (byte)1 : (byte)0; }
+        public Mark(int bx, int by, int bz, boolean sun) {
+            x = 0.5f + bx;
+            y = by + 0.13f;
+            z = 0.5f + bz;
+            r = sun ? (byte)1 : (byte)0;
+        }
+        // safe spawn mark
+        public Mark(int bx, int by, int bz) {
+            x = bx;
+            y = by;
+            z = bz;
+            r = 2;
+        }
+
         // ore mark
         public Mark(int bx, int by, int bz, Mark c) { x = 0.5f + bx; y = 0.5f + by; z = 0.5f + bz; r = c.r; g = c.g; b = c.b; }
         // range mark
