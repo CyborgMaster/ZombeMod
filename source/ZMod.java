@@ -2117,7 +2117,7 @@ public final class ZMod {
     private static int keySafeShow;
     private static Mark optSafeDangerColor, optSafeDangerColorSun;
     private static boolean optSafeShowWithSun;
-    private static final int safeMax = 2048;
+    private static final int safeMax = 36000; //2048;
     private static Mark safeMark[];
     private static boolean safeShow;
     private static int safeCur, safeUpdate;
@@ -2149,18 +2149,92 @@ public final class ZMod {
             safeUpdate = 16;
             reCheckSafe(fix(posX), fix(posY), fix(posZ));
         }
+        
         GL11.glDisable(GL11.GL_TEXTURE_2D);
+        
+        //GL11.glDepthMask(false);
+        //GL11.glDisable(GL11.GL_CULL_FACE);
+        //GL11.glEnable(GL11.GL_BLEND); GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        //GL11.glBegin(GL11.GL_QUADS);
         GL11.glBegin(GL11.GL_LINES);
         for(int i=0;i<safeCur;i++) {
             Mark got = safeMark[i];
-            if(got.r==1) GL11.glColor3ub(optSafeDangerColorSun.r,optSafeDangerColorSun.g,optSafeDangerColorSun.b);
-            else GL11.glColor3ub(optSafeDangerColor.r,optSafeDangerColor.g,optSafeDangerColor.b);
+            if(got.r==1)
+                GL11.glColor3ub(optSafeDangerColorSun.r,optSafeDangerColorSun.g,
+                                optSafeDangerColorSun.b);
+            else
+                GL11.glColor3ub(optSafeDangerColor.r,optSafeDangerColor.
+                                g,optSafeDangerColor.b);
             mx = got.x - x; my = got.y - y; mz = got.z - z;
-            GL11.glVertex3f(mx+0.5f,my,mz+0.5f); GL11.glVertex3f(mx-0.5f,my,mz-0.5f);
-            GL11.glVertex3f(mx+0.5f,my,mz-0.5f); GL11.glVertex3f(mx-0.5f,my,mz+0.5f);
+
+            float sx, sy, sz, ex, ey, ez; //represents the corner of the block
+            sx = mx-0.5f + .01f;
+            sy = my-.13f + .01f;
+            sz = mz-0.5f + .01f;
+            ex = sx + 0.98f;
+            ey = sy + 0.98f;
+            ez = sz + 0.98f;
+            /*
+            GL11.glVertex3f(sx,sy,sz);
+            GL11.glVertex3f(sx,sy,ez);
+            GL11.glVertex3f(ex,sy,ez);
+            GL11.glVertex3f(ex,sy,sz);
+            */
+            /*
+            GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,sy,ez);
+            GL11.glVertex3f(sx,ey,ez); GL11.glVertex3f(sx,ey,sz);
+
+            GL11.glVertex3f(ex,sy,sz); GL11.glVertex3f(ex,sy,ez);
+            GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,ey,sz);
+
+            GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,sy,ez);
+            GL11.glVertex3f(ex,sy,ez); GL11.glVertex3f(ex,sy,sz);
+
+            GL11.glVertex3f(sx,ey,sz); GL11.glVertex3f(sx,ey,ez);
+            GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,ey,sz);
+
+            GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,ey,sz);
+            GL11.glVertex3f(ex,ey,sz); GL11.glVertex3f(ex,sy,sz);
+            
+            GL11.glVertex3f(sx,sy,ez); GL11.glVertex3f(sx,ey,ez);
+            GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,sy,ez);
+            */
+            
+            GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,sy,ez);
+            GL11.glVertex3f(sx,sy,ez); GL11.glVertex3f(sx,ey,ez);
+            GL11.glVertex3f(sx,ey,ez); GL11.glVertex3f(sx,ey,sz);
+            GL11.glVertex3f(sx,ey,sz); GL11.glVertex3f(sx,sy,sz);
+
+            GL11.glVertex3f(ex,sy,sz); GL11.glVertex3f(ex,sy,ez);
+            GL11.glVertex3f(ex,sy,ez); GL11.glVertex3f(ex,ey,ez);
+            GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,ey,sz);
+            GL11.glVertex3f(ex,ey,sz); GL11.glVertex3f(ex,sy,sz);
+
+            GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(ex,sy,sz);
+            GL11.glVertex3f(sx,sy,ez); GL11.glVertex3f(ex,sy,ez);
+            GL11.glVertex3f(sx,ey,ez); GL11.glVertex3f(ex,ey,ez);
+            GL11.glVertex3f(sx,ey,sz); GL11.glVertex3f(ex,ey,sz);
         }
         GL11.glEnd();
+        //GL11.glDisable(GL11.GL_BLEND);
+        //GL11.glEnable(GL11.GL_CULL_FACE);
+        //GL11.glDepthMask(true);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
+
+/*
+        GL11.glEnable(GL11.GL_BLEND); GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GL11.glColor4ub((byte)255,(byte)64,(byte)32,(byte)32);
+            GL11.glBegin(GL11.GL_QUADS);
+                GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,sy,ez); GL11.glVertex3f(sx,ey,ez); GL11.glVertex3f(sx,ey,sz);
+                GL11.glVertex3f(ex,sy,sz); GL11.glVertex3f(ex,sy,ez); GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,ey,sz);
+                GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,sy,ez); GL11.glVertex3f(ex,sy,ez); GL11.glVertex3f(ex,sy,sz);
+                GL11.glVertex3f(sx,ey,sz); GL11.glVertex3f(sx,ey,ez); GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,ey,sz);
+                GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,ey,sz); GL11.glVertex3f(ex,ey,sz); GL11.glVertex3f(ex,sy,sz);
+                GL11.glVertex3f(sx,sy,ez); GL11.glVertex3f(sx,ey,ez); GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,sy,ez);
+            GL11.glEnd();
+            GL11.glDisable(GL11.GL_BLEND);
+        */  
+        
     }
     
     private static String textModSafe(String txt) {
@@ -2184,10 +2258,10 @@ public final class ZMod {
         for(int x=pX-16;x<pX+16;x++) for(int y=pY-16;y<pY+16;y++) for(int z=pZ-16;z<pZ+16;z++) {
             int onWhat;
             // UPDATE: ensure the spawn check has not changed - search: completed * find the can-spawn function there
-            if(((onWhat = block[mapXGetId(x,y,z)]) & maskA) == 0) continue; // !eb1.g(i, j - 1, k)
-            if((onWhat & maskL) != 0) continue; // spawn limitations from "spawn" mod
+            //if(((onWhat = block[mapXGetId(x,y,z)]) & maskA) == 0) continue; // !eb1.g(i, j - 1, k)
+            //if((onWhat & maskL) != 0) continue; // spawn limitations from "spawn" mod
             if((block[mapXGetId(x,y+1,z)] & maskB) != 0) continue; // eb1.g(i, j, k) || eb1.f(i, j, k).d()
-            if((block[mapXGetId(x,y+2,z)] & maskC) != 0) continue; // eb1.g(i, j + 1, k)
+            //if((block[mapXGetId(x,y+2,z)] & maskC) != 0) continue; // eb1.g(i, j + 1, k)
             // light level check
             if(getLightLevel(x, y+1, z, 16) > 7) continue;
             safeMark[safeCur++] = new Mark(x,y+1,z, optSafeShowWithSun && (getLightLevel(x, y+1, z, 0) > 7));
