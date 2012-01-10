@@ -808,9 +808,14 @@ public final class ZMod {
             long time = getTime(), timeRT = time;
             float val;
             ChunkCoordinates at;
+            int infoX = roundTowardZero(posX);
+            int infoY = roundTowardZero(posY);
+            int infoZ = roundTowardZero(posZ);
             if(modSunEnabled && sunTimeOffset != 0) time += sunTimeOffset;
             // your location
-            info += "Your position:   §9" + x + "§f , §9" + y + "§f , §9" + z + "§f    Fog: §9" + getViewDistance() + "§f    Exp-orbs: §9" + player.entXpTotal;
+            info += "Your position:   §9" + infoX + "§f , §9" + infoY+
+                "§f , §9" + infoZ + "§f    Fog: §9" + getViewDistance() +
+                "§f    Exp-orbs: §9" + player.entXpTotal;
             if(y >= 1) info += "\n  Light level:   §9" + getLightLevel(x,y-1,z) + "§f   (   min: §8"+getLightLevel(x,y-1,z,16)+"§f   max: §e"+getLightLevel(x,y-1,z,0)+"§f   )"; // current light level, min, max
             info += "\n  Biome:   §9" + getBiomeName(x,z); // biome
 //            val = getTemp(); if(!Float.isNaN(val)) info += "§f   temp = §9" + (int)(val * 40) + "§f C";
@@ -1570,8 +1575,19 @@ public final class ZMod {
         return "W";
     }
 
+    private static int roundTowardZero(double val) {
+        if (val < 0) {
+            return (int)Math.ceil(val);
+        } else {
+            return (int)Math.floor(val);
+        }
+    }
     private static String textModCompassShared(String txt) {
-        if((modCompassEnabled && optCompassShowPos) || (modInfoEnabled && optInfoShowPos)) txt += "(" + fix(posX) + "," + fix(posY) + "," + fix(posZ) + " §7" + getAngleName(player.entYaw) + "§f) ";
+        if((modCompassEnabled && optCompassShowPos) ||
+           (modInfoEnabled && optInfoShowPos))
+            txt += "(" + roundTowardZero(posX) + "," +roundTowardZero(posY)
+                + "," + roundTowardZero(posZ) + " §7" +
+                getAngleName(player.entYaw) + "§f) ";
         if(modCompassEnabled && !compassShowOrig && tagCompassAlternate.length()>0) txt += tagCompassAlternate + " ";
         return txt;
     }
