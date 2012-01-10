@@ -2134,7 +2134,10 @@ public final class ZMod {
     private static boolean optSafeShowWithSun;
     private static final int safeMax = 2048;
     private static Mark safeMark[];
-    private static boolean safeShow, spawnerShowSafe;
+    private static boolean safeShow;
+    private static enum ShowSpawnerMarks {
+        NONE, DANGER, SAFE };
+    private static ShowSpawnerMarks spawnerShowSafe;
     private static int safeCur, safeUpdate;
 
     private static boolean initModSafe() {
@@ -2146,7 +2149,7 @@ public final class ZMod {
         tagSafe = getString("tagSafe", "Safe");
         optionsModSafe();
         safeShow = false;
-        spawnerShowSafe = false;
+        spawnerShowSafe = ShowSpawnerMarks.NONE;
         return true;
     }
 
@@ -2155,7 +2158,7 @@ public final class ZMod {
                                  "Show / hide un-safe markers");
         keySpawnerToggle = getSetBind(
             keySpawnerToggle, "keySpawnerToggle", Keyboard.KEY_K,
-            "Shows safe/danger for spawners.");
+            "Show safe/danger for spawners.");
         optSafeShowWithSun = getSetBool(
             optSafeShowWithSun, "optSafeShowWithSun", true,
             "Mark 'safe at midday' differently");
@@ -2166,7 +2169,17 @@ public final class ZMod {
             safeShow = !safeShow;
         }
         if(modSafeEnabled && !isMenu && keyPress(keySpawnerToggle)) {
-            spawnerShowSafe = !spawnerShowSafe;
+            switch (spawnerShowSafe) {
+            case NONE:
+                spawnerShowSafe = ShowSpawnerMarks.DANGER;
+                break;
+            case DANGER:
+                spawnerShowSafe = ShowSpawnerMarks.SAFE;
+                break;
+            case SAFE:
+                spawnerShowSafe = ShowSpawnerMarks.NONE;
+                break;
+            }
         }
     }
 
@@ -2179,10 +2192,6 @@ public final class ZMod {
         }
         
         GL11.glDisable(GL11.GL_TEXTURE_2D);
-        //GL11.glDepthMask(false);
-        //GL11.glDisable(GL11.GL_CULL_FACE);
-        //GL11.glEnable(GL11.GL_BLEND); GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        //GL11.glBegin(GL11.GL_QUADS);
         GL11.glBegin(GL11.GL_LINES);
         for(int i=0;i<safeCur;i++) {
             Mark got = safeMark[i];
@@ -2230,7 +2239,7 @@ public final class ZMod {
                 ey = sy + 1f;
                 ez = sz + 1f;
                 
-                /*
+                 /*
                 //Inset lines
                 sx = mx + .01f;
                 sy = my + .01f;
@@ -2250,32 +2259,6 @@ public final class ZMod {
                 ez = sz + 1.02f;
                 */
 
-                /*
-                  GL11.glVertex3f(sx,sy,sz);
-                  GL11.glVertex3f(sx,sy,ez);
-                  GL11.glVertex3f(ex,sy,ez);
-                  GL11.glVertex3f(ex,sy,sz);
-                */
-                /*
-                  GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,sy,ez);
-                  GL11.glVertex3f(sx,ey,ez); GL11.glVertex3f(sx,ey,sz);
-
-                  GL11.glVertex3f(ex,sy,sz); GL11.glVertex3f(ex,sy,ez);
-                  GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,ey,sz);
-
-                  GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,sy,ez);
-                  GL11.glVertex3f(ex,sy,ez); GL11.glVertex3f(ex,sy,sz);
-
-                  GL11.glVertex3f(sx,ey,sz); GL11.glVertex3f(sx,ey,ez);
-                  GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,ey,sz);
-
-                  GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,ey,sz);
-                  GL11.glVertex3f(ex,ey,sz); GL11.glVertex3f(ex,sy,sz);
-
-                  GL11.glVertex3f(sx,sy,ez); GL11.glVertex3f(sx,ey,ez);
-                  GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,sy,ez);
-                */
-
                 GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,sy,ez);
                 GL11.glVertex3f(sx,sy,ez); GL11.glVertex3f(sx,ey,ez);
                 GL11.glVertex3f(sx,ey,ez); GL11.glVertex3f(sx,ey,sz);
@@ -2293,51 +2276,27 @@ public final class ZMod {
                 break;
             }
         }
-            /*
-            if (got.r == 2) { //spawner mark
-                GL11.glColor3ub(optSafeSafeColor.r,optSafeSafeColor.g,
-                                    optSafeSafeColor.b);
-
-                float sx, sy, sz, ex, ey, ez; //represents the faces of the block
-
-
-            } else {
-                if(got.r==1)
-                    GL11.glColor3ub(optSafeDangerColorSun.r,optSafeDangerColorSun.g,
-                                    optSafeDangerColorSun.b);
-                else
-                    GL11.glColor3ub(optSafeDangerColor.r,optSafeDangerColor.
-                                    g,optSafeDangerColor.b);
-
-                GL11.glVertex3f(mx+0.5f,my,mz+0.5f); GL11.glVertex3f(mx-0.5f,my,mz-0.5f);
-                GL11.glVertex3f(mx+0.5f,my,mz-0.5f); GL11.glVertex3f(mx-0.5f,my,mz+0.5f);
-            }
-        }
-            */
         GL11.glEnd();
-        //GL11.glDisable(GL11.GL_BLEND);
-        //GL11.glEnable(GL11.GL_CULL_FACE);
-        //GL11.glDepthMask(true);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
-/*
-        GL11.glEnable(GL11.GL_BLEND); GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glColor4ub((byte)255,(byte)64,(byte)32,(byte)32);
-            GL11.glBegin(GL11.GL_QUADS);
-                GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,sy,ez); GL11.glVertex3f(sx,ey,ez); GL11.glVertex3f(sx,ey,sz);
-                GL11.glVertex3f(ex,sy,sz); GL11.glVertex3f(ex,sy,ez); GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,ey,sz);
-                GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,sy,ez); GL11.glVertex3f(ex,sy,ez); GL11.glVertex3f(ex,sy,sz);
-                GL11.glVertex3f(sx,ey,sz); GL11.glVertex3f(sx,ey,ez); GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,ey,sz);
-                GL11.glVertex3f(sx,sy,sz); GL11.glVertex3f(sx,ey,sz); GL11.glVertex3f(ex,ey,sz); GL11.glVertex3f(ex,sy,sz);
-                GL11.glVertex3f(sx,sy,ez); GL11.glVertex3f(sx,ey,ez); GL11.glVertex3f(ex,ey,ez); GL11.glVertex3f(ex,sy,ez);
-            GL11.glEnd();
-            GL11.glDisable(GL11.GL_BLEND);
-        */
-
     }
 
     private static String textModSafe(String txt) {
         if(!modSafeEnabled || !safeShow || tagSafe.length()==0) return txt;
-        return txt + tagSafe + " ";
+
+        String spawnText = "";
+        switch(spawnerShowSafe) {
+        case NONE:
+            spawnText = "";
+            break;
+        case DANGER:
+            spawnText = "-§cSpawner§f";
+            break;
+        case SAFE:
+            spawnText = "-§aSpawner§f";
+            break;
+        }
+        
+        return txt + tagSafe + spawnText + " ";
     }
 
     private static void reCheckSafe(int pX, int pY, int pZ) {
@@ -2358,7 +2317,8 @@ public final class ZMod {
             // UPDATE: ensure the spawn check has not changed -
             // search: completed * find the can-spawn function there
 
-            if (mapXGetId(x,y,z) == SPAWNERID) {
+            if (spawnerShowSafe != ShowSpawnerMarks.NONE &&
+                mapXGetId(x,y,z) == SPAWNERID) {
                 //check all around the spawner for spawn locations
                 for (int sx = x - 4; sx <= x + 4; sx++)
                 for (int sy = y - 1; sy <=  y + 1; sy++)
@@ -2366,10 +2326,10 @@ public final class ZMod {
                     //only show air blocks
                     if ((block[mapXGetId(sx,sy,sz)] & maskB) != 0) continue;
 
-                    if (spawnerShowSafe &&
+                    if (spawnerShowSafe == ShowSpawnerMarks.SAFE &&
                         getLightLevel(sx, sy, sz, 16) > 7) {
                         safeMark[safeCur++] = new Mark(sx,sy,sz,(byte)2);
-                    } else if (!spawnerShowSafe &&
+                    } else if (spawnerShowSafe == ShowSpawnerMarks.DANGER &&
                                getLightLevel(sx, sy, sz, 16) <= 7) {
                         safeMark[safeCur++] = new Mark(sx,sy,sz,(byte)3);
                     }
