@@ -2155,6 +2155,7 @@ public final class ZMod {
         NONE, DANGER, SAFE };
     private static ShowSpawnerMarks spawnerShowSafe;
     private static int safeCur, safeUpdate;
+    private static int optSafeLightLevel;
 
     private static boolean initModSafe() {
         safeMark = new Mark[safeMax];
@@ -2178,6 +2179,8 @@ public final class ZMod {
         optSafeShowWithSun = getSetBool(
             optSafeShowWithSun, "optSafeShowWithSun", true,
             "Mark 'safe at midday' differently");
+        optSafeLightLevel = getSetInt(optSafeLightLevel, "optSafeLightLevel",
+                                      7, 0, 15, "Light Level");
     }
 
     private static void updateModSafe() {
@@ -2343,10 +2346,11 @@ public final class ZMod {
                     if ((block[mapXGetId(sx,sy,sz)] & maskB) != 0) continue;
 
                     if (spawnerShowSafe == ShowSpawnerMarks.SAFE &&
-                        getLightLevel(sx, sy, sz, 16) > 7) {
+                        getLightLevel(sx, sy, sz, 16) > optSafeLightLevel) {
                         safeMark[safeCur++] = new Mark(sx,sy,sz,(byte)2);
                     } else if (spawnerShowSafe == ShowSpawnerMarks.DANGER &&
-                               getLightLevel(sx, sy, sz, 16) <= 7) {
+                               getLightLevel(sx, sy, sz, 16) <=
+                               optSafeLightLevel) {
                         safeMark[safeCur++] = new Mark(sx,sy,sz,(byte)3);
                     }
 
@@ -2358,8 +2362,9 @@ public final class ZMod {
                 if((block[mapXGetId(x,y+1,z)] & maskB) != 0) continue; // eb1.g(i, j, k) || eb1.f(i, j, k).d()
                 if((block[mapXGetId(x,y+2,z)] & maskC) != 0) continue; // eb1.g(i, j + 1, k)
                 // light level check
-                if(getLightLevel(x, y+1, z, 16) > 7) continue;
-                safeMark[safeCur++] = new Mark(x,y+1,z, optSafeShowWithSun && (getLightLevel(x, y+1, z, 0) > 7));
+                if(getLightLevel(x, y+1, z, 16) > optSafeLightLevel) continue;
+                safeMark[safeCur++] = new Mark(x,y+1,z, optSafeShowWithSun &&
+                                               (getLightLevel(x, y+1, z, 0) > optSafeLightLevel));
                 if(safeCur == safeMax) return;
             }
         }
