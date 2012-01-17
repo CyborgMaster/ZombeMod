@@ -39,7 +39,7 @@ public final class Trans {
         writer.write(transform(builder.toString()));
         writer.close();
         
-        exec("javac -O -cp class_out;class_in;class_in/lwjgl.jar;class_in/lwjgl_util.jar;class_in/jinput.jar -d class_out "+fnOut);
+        exec("javac -O -cp class_out;class_in;class_in/lwjgl.jar;class_in/lwjgl_util.jar;class_in/jinput.jar;tmp -d class_out "+fnOut);
         exec("java Obfus class_out class_jar "+fnOutName.substring(0, fnOutName.length() - 5));
     }
     
