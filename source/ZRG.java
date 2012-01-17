@@ -5,9 +5,9 @@ import org.lwjgl.opengl.*;
 import java.nio.*;
 
 // search: clouds.png
-public class ZRG extends afv {
+public class ZRG extends l {
 
-    public ZRG(Minecraft minecraft, zh renderengine) {
+    public ZRG(Minecraft minecraft, yz renderengine) {
         super(minecraft, renderengine);
     }
 

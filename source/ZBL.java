@@ -6,7 +6,7 @@ public final class ZBL extends BlockLeaves {
 
     public ZBL() {
         super(18, 52);
-        c(0.2F).h(1).a(e).a("leaves").k(); // "leaves" * drop the last function.
+        c(0.2F).f(1).a(g).a("leaves").k(); // "leaves" * drop the last function.
     }
 
     public int blockGetDropCount(int zero, Random random) {

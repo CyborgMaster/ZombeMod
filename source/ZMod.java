@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 import java.nio.*;
 
 public final class ZMod {
-    public static final String version = "5.8";
+    public static final String version = "5.9";
     
     // ########################################################################################################################### Consts / lookups
     private static final int KNOWN     = 0x00000001, SOLID    = 0x00000002, LIQUID  = 0x00000004, CRAFT  = 0x00000008,
@@ -151,6 +151,10 @@ public final class ZMod {
         block[121] = KNOWN | SOLID | BASIC;         // end stone
         block[122] = KNOWN | SOLID | BASIC;         // dragon egg
         for(int i=0;i<256;i++) if(getBlockIsSpawn(i)) block[i] |= SPAWN;
+        
+        // hack
+        //boolean arr[] = (boolean[])getValue(getField(EntityEnderMan.class, "c"), null);
+        //for(int i=0;i<256;i++) arr[i] = false;
     }
 
     // ########################################################################################################################### Global handles
@@ -349,6 +353,7 @@ public final class ZMod {
             if(isWorldChange = PC != prevPC) {
                 modFlyAllowed = modFlyEnabled;
                 modCheatAllowed = modCheatEnabled;
+                modNoClipAllowed = modFlyEnabled && !isMultiplayer;
                 chatWelcomed = false;
                 iconMPSupport = false;
                 infoDeathY = 1024;
@@ -362,8 +367,10 @@ public final class ZMod {
                 if(msg.contains("joined the game")) { chatWelcomed = true; continue; }
                 if(msg.contains("§f §f §1 §0 §2 §4")) modFlyAllowed = false;
                 if(msg.contains("§f §f §2 §0 §4 §8")) modCheatAllowed = false;
+                if(msg.contains("§f §f §4 §0 §9 §6")) modNoClipAllowed = modFlyAllowed;
                 if(msg.matches(".*(\\W|^)no-z-fly(\\W|$).*")) modFlyAllowed = false;
                 if(msg.matches(".*(\\W|^)no-z-cheat(\\W|$).*")) modCheatAllowed = false;
+                if(msg.matches(".*(\\W|^)z-cheat(\\W|$).*")) modNoClipAllowed = modFlyAllowed;
             }
             if(chat.size()>0) chatLast = getChatLine(chat, 0);
             delMsg(1);
@@ -803,6 +810,11 @@ public final class ZMod {
 //            val = getHumid(); if(!Float.isNaN(val)) info += "§f   humid = §9" + (int)(val * 100) + "§f %";
             Random rnd = new Random(getSeed() + (long)(cx * cx * 0x4c1906) + (long)(cx * 0x5ac0db) + (long)(cz * cz) * 0x4307a7L + (long)(cz * 0x5f24f) ^ 0x3ad8025f); // the silliest nonsense i have ever seen x_x
             info += "\n  Slime spawns:   §9" + (rnd.nextInt(10)==0 ? "yes " : "no  ") + "§f  chunk: §9"+cx+"§f , §9"+cz;
+            ChunkPosition stronghold = map.mapGetStronghold("Stronghold", x, y, z);
+            if(stronghold != null) {
+                info += "\n  Stronghold:    §9" + (mx = stronghold.cpX) + "§f , §9" + stronghold.cpY + "§f , §9" + (mz = stronghold.cpZ);
+                mx -= x; mz -= z; info += "§f (§9" + (int)Math.sqrt(mx*mx + mz*mz) + "§fm)";
+            }
             // the world
             info += "\nCompasspoint:   §9" + (mx = (Integer)getValue(fSpawnX, world)) + "§f , §9" + (my = (Integer)getValue(fSpawnY, world)) + "§f , §9" + (mz = (Integer)getValue(fSpawnZ, world));
             mx -= x; mz -= z; info += "§f (§9" + (int)Math.sqrt(mx*mx + mz*mz) + "§fm)";
@@ -1623,7 +1635,7 @@ public final class ZMod {
     
     
     // ===========================================================================================================================
-    private static boolean modFlyEnabled, modFlyAllowed;
+    private static boolean modFlyEnabled, modFlyAllowed, modNoClipAllowed;
     private static String tagFly, tagFlyNoClip;
     private static int keyFlyOn, keyFlyOff, keyFlyUp, keyFlyDown, keyFlySpeed, keyFlyToggle, keyFlyRun, keyFlyNoClip;
     private static double optFlySpeedVertical, optFlySpeedMulNormal, optFlySpeedMulModifier, optFlyRunSpeedMul, optFlyRunSpeedVMul;
@@ -1669,7 +1681,7 @@ public final class ZMod {
 
     private static void updateModFly() {
         if(isWorldChange) {
-            flyNoClip = optFlyNoClip && !isMultiplayer;
+            flyNoClip = optFlyNoClip && modNoClipAllowed;
             setNoClip(modFlyAllowed && flyNoClip && fly);
         }
         if(!modFlyEnabled || isMenu) return;
@@ -1681,7 +1693,7 @@ public final class ZMod {
             fly = false;
             chatClient("§4zombe's §2fly§4-mod is not allowed on this server.");
         }
-        if(!isMultiplayer && fly && keyPress(keyFlyNoClip)) setNoClip(flyNoClip = !flyNoClip);
+        if(fly && keyPress(keyFlyNoClip)) setNoClip(!flyNoClip);
         else if(flyPrev != fly) setNoClip(fly && flyNoClip);
         if(optFlySpeedIsToggle && keyPress(keyFlySpeed)) flySpeed = !flySpeed;
         if(optFlyRunSpeedIsToggle && keyPress(keyFlyRun)) flyRun = !flyRun;
@@ -1700,7 +1712,7 @@ public final class ZMod {
     }
 
     public static void flyDickmoveCancel() {
-        if(!flyNoClip || !fly || isMultiplayer) return;
+        if(!flyNoClip || !fly || !modNoClipAllowed) return;
         setEntityMotionX(player, movX);
         setEntityMotionZ(player, movZ);
     }
@@ -3454,7 +3466,13 @@ public final class ZMod {
     private static RenderItem itemRenderer;
     // ---------------------------------------------------------------------------------------------------------------- Entity
     private static Field fFireImmune = getField(Entity.class, "entFireImmune");
-    private static void setNoClip(boolean val) { player.entNoClip = val; }
+    private static void setNoClip(boolean val) {
+        if(player.entNoClip != val) {
+            if(modNoClipAllowed) sendChat(val ? "/noclip enabled" : "/noclip disabled");
+            else { chatClient("§4zombe's §2noclip§4-mod is not enabled on this server."); val = false; }
+            player.entNoClip = flyNoClip = val;
+        }
+    }
     private static float getEntityWidth(Entity ent) { return ent.entWidth; }
     private static float getEntityHeight(Entity ent) { return ent.entHeight; }
     private static float getEntityYaw(Entity ent) { return ent.entYaw; }
@@ -3532,13 +3550,6 @@ public final class ZMod {
     private static Field fHealth = getField(EntityLiving.class, "entHealth");
     private static void setHealth(EntityLiving ent, int val) { setValue(fHealth, ent, val); }
     private static int getHealth(EntityLiving ent) { return (Integer)getValue(fHealth, ent); }
-/*    private static void setEntitySize(EntityLiving ent, boolean big) {
-        if(ent.entHeight > 5.0 || ent.entHeight < 0.1) return; // sanity precaution
-        ent.entWidth *= big ? 1.5 : 0.5;
-        ent.entHeight *= big ? 1.5 : 0.5;
-        if(big) setHealth(ent, getHealth(ent) << 1); else setHealth(ent, getHealth(ent) >> 1);
-        ent.entSetPosition(ent.entPosX, ent.entPosY, ent.entPosZ);
-    }*/
     private static void setEntitySize(EntityLiving ent, float height, int health) {
         ent.entWidth *= height / ent.entHeight;
         ent.entHeight = height;
@@ -3677,10 +3688,6 @@ public final class ZMod {
     private static int rayHitSide() { return rayHit.raySide; }
     // ---------------------------------------------------------------------------------------------------------------- InventoryPlayer
     private static InventoryPlayer getInventory(EntityPlayer ent) { return ent.entInventory; }
-    private static void setInventory(EntityPlayer ent, InventoryPlayer val) {                                              // FIXME
-        ent.entInventory = val;
-        ent.bA = ent.bz = new ContainerPlayer(val, !isMultiplayer); // This stuff is in constructor of ("humanoid") class
-    }
     private static ItemStack invItemsArr[], invArmorsArr[];
     private static ItemStack[] getInvItems(InventoryPlayer inv) { return inv.invItems; }
     private static ItemStack[] getInvArmors(InventoryPlayer inv) { return inv.invArmors; }

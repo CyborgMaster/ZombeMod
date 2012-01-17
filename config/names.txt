@@ -320,6 +320,9 @@ melonG 382                          // Glistering melon
 // added in RC2
 dragonEggBlock 122                  // dragon egg block
 
+// added in 1.1
+mobEgg 383                          // monster placer / mob egg
+
 // Names for critters - teleport mod uses thous. Can not be used in recipes, obviously.
 
 Object       0                      // non-alive items

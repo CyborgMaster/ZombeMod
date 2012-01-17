@@ -1,244 +1,250 @@
 
-Block                   yy  // "ice"
- blockArr               k
+Block                   oe  // "ice"
+ blockArr               m
  blockGetDropCount      a   // only function with <int(0), random>
  blockGetDropId         a   // only function with <int(meta), random, int(0)>
- blockGetMeta           a   // <int(meta)>
- blockGetTickRate       f   // \.[a-zA-Z]+\([a-z0-9]+, [a-z0-9]+, [a-z0-9]+, [a-zA-Z]+ - 1, [a-zA-Z]\(\)\);  * last parameter
+ blockGetMeta           c   // <int(meta)>
+ blockGetTickRate       e   // \.[a-zA-Z]+\([a-z0-9]+, [a-z0-9]+, [a-z0-9]+, [a-zA-Z]+ - 1, [a-zA-Z]\(\)\);  * last parameter
  blockOnAdd             a   // found thous two in sponge class
  blockOnRemove          b_  //   ...
  blockOnUpdate          a   // \[[a-z0-9]+\]\.[a-z]+\(this, [a-z0-9]+ \+
- blockStrength          bN  // 1.0F / [a-zA-Z]+ / 100F;
- blockResist            bO  // return [a-zA-Z]+ / 5F;
- blockSlip              ca  // [a-zA-Z]+ = 0\.6F;
- blockMat               bZ  // return [a-zA-Z]+ != [a-zA-Z]+\.[a-zA-Z]+ \? 0 : 30;  * return ? != ...
- blockIsOpaqueArr       m   // line before x() ? 255 : 0 in constructor      * can not change this as most of the code bypasses the array and recalculates it needlessly all the fucking time - NOTCH!
- blockOpacityArr        o   // line x() ? 255 : 0 in constructor
- blockLightArr          q   // [a-zA-Z]+\[[a-zA-Z0-9]+\] = \(int\)\(15F \* [a-zA-Z0-9]+\);
+ blockStrength          bP  // 1.0F / [a-zA-Z]+ / 100F;
+ blockResist            bQ  // return [a-zA-Z]+ / 5F;
+ blockSlip              cc  // [a-zA-Z]+ = 0\.6F;
+ blockMat               cb  // return [a-zA-Z]+ != [a-zA-Z]+\.[a-zA-Z]+ \? 0 : 30;  * return ? != ...
+ blockIsOpaqueArr       o   // line before x() ? 255 : 0 in constructor      * can not change this as most of the code bypasses the array and recalculates it needlessly all the fucking time - NOTCH!
+ blockOpacityArr        q   // line x() ? 255 : 0 in constructor
+ blockLightArr          s   // [a-zA-Z]+\[[a-zA-Z0-9]+\] = \(int\)\(15F \* [a-zA-Z0-9]+\);
  blockGetIsNormal       b   // if\([a-z]+\.[a-z]+\[[a-zA-Z]+[0-9]\]\.[a-zA-Z]+\.[a-z]+\(\) && [a-z]+\.[a-z]+\[[a-z]+[0-9]\].[a-z]+\(\)\)  * the very last function
-BlockFire               wj  // "fire"
+BlockFire               ajp // "fire"
  blockSpread            a   // ???
- blockBurn              cb  // ???
-BlockLeaves             qo  // "leaves"
- blockSetDetail         a   // ??? * setGraphicsLevel                                                               //  yy.K.a(r.A.j);   Block.leaves.setGraphicsLevel(mc.gameSettings.fancyGraphics);
+ blockBurn              b   // ???
+BlockLeaves             tb  // "leaves"
+ blockSetDetail         b   // ??? * setGraphicsLevel                                                               //  yy.K.a(r.A.j);   Block.leaves.setGraphicsLevel(mc.gameSettings.fancyGraphics);
 
-Material                p   //   ~
- matGetIsLiquid         a   // if\([a-zA-Z0-9]+ >= 4 && [a-zA-Z0-9]+\.[a-zA-Z]+\(\)\)
+Material                aan //   ~
+ matGetIsLiquid         d   // if\([a-zA-Z0-9]+ >= 4 && [a-zA-Z0-9]+\.[a-zA-Z]+\(\)\)
  matGetIsCover          c   // [a-z]+\[[a-z0-9]+\] = ![a-z0-9]+\.[a-z]+\(\);
- matGetIsSolid          d   // ??? return ((wa)mat).c(); }            // was "c", my random guess it is now "d".
- matGetIsBurnable       b   // return [a-z0-9]+\.[a-z]+\([a-z0-9]+, [a-z0-9]+, [a-z0-9]+\)\.[a-z]+\(\);
+ matGetIsSolid          d   // ??? ???
+ matGetIsBurnable       g   // return [a-z0-9]+\.[a-z]+\([a-z0-9]+, [a-z0-9]+, [a-z0-9]+\)\.[a-z]+\(\);                    // a ? g
  matGetIsReplaceable    i   // return [a-z0-9]+ == 0 \|\| [a-zA-Z]+\[[a-z0-9]+\]\.[a-zA-Z]+\.[a-zA-Z]+\(\);
  matGetIsOpaque         j   // if\([a-z]+\.[a-z]+\[[a-zA-Z]+[0-9]\]\.[a-zA-Z]+\.[a-z]+\(\) && [a-z]+\.[a-z]+\[[a-z]+[0-9]\].[a-z]+\(\)\)  * last function on the left side of &&
 
-Item                    acy //   ~
- itemArr                d   //   ~
- itemGetMax             e   //   ~
- itemSetMax             h   // "Max stack size  * find the getters / setters
- itemGetDmgCap          g   // \[[a-z]+\]\.[a-z]+\(\) > 0;  * last function name
- itemSetDmgCap          i   // ???
- itemGetName            d   // [a-z]\(\)\)\.append\("\.name"  * match from correct class
- itemGetHasSubTypes     f   // return [a-z0-9]+\.[a-z]+\[[a-z0-9]+\]\.[a-z]+\(\); * returns boolean (ie. not getItemDmgCap).
+Item                    ww  //   ~
+ itemArr                e   //   ~
+ itemGetMax             f   //   ~
+ itemSetMax             f   // find ?? = 64, find the getters / setters
+ itemGetDmgCap          h   // \[[a-z]+\]\.[a-z]+\(\) > 0;  * last function name (starts with correct class)
+ itemSetDmgCap          g   // ???
+ itemGetName            e   // [a-z]\(\)\)\.append\("\.name"  * match from correct class
+ itemGetHasSubTypes     g   // return [a-z0-9]+\.[a-z]+\[[a-z0-9]+\]\.[a-z]+\(\); * returns boolean (ie. not getItemDmgCap).
 
-WorldProvider           k   // 24000F   * "sun"
-PlayerControllerSP      dm  // = -180F   * "dig"/"build". the one that does not create new packets
-RenderLiving            acq // "deadmau5"   * "resize". the one with simpler IF
-Explosion               xp  // "random.explode", 4F   * "boom"
-GuiContainer            mg  // 1 = -999;   * "craft"
+WorldProvider           aip // 24000F   * "sun"
+PlayerControllerSP      acq // = -180F   * "dig"/"build". the one that does not create new packets
+RenderLiving            ey  // "deadmau5"   * "resize". the one with simpler IF
+Explosion               aef // "random.explode", 4F   * "boom"
+GuiContainer            ft  // 1 = -999;   * "craft"
  guiContSlots           d   // ???  * some public obj field at the end
 
-Entity                  ia  // \*= 0\.05000000074505806D
- entNoClip              W   // \*= 0\.05000000074505806D  * at the beginning of the function
- entFireImmune          af  // find "ghast" and guess
- entWidth               M   // = 0.6F;  * in constructor
- entHeight              N   // = 1.8F;
- entOn                  n   // ??? second Entity type field in Entity       (m | n)
- entGetMountOffset      P   // \* 0\.75D;  * it is in that function
- entSteps               P   // 59999999999999998D   * Entity class: stepCounter += (double)??.?(? * ? + ? + ?)*0.59999999999999998D;
- entSetDead             v   // ??? public void ?() { ? = true; } ... first match?    (v | aa)
- entOnGround            D   // "OnGround"
- entMotionX             v   // "Motion"
- entMotionY             w   //   ...
- entMotionZ             x   //   ...
- entYaw                 y   // "Rotation"
- entPitch               z   //   ...
+Entity                  ms  // \*= 0\.05000000074505806D
+ entNoClip              S   // \*= 0\.05000000074505806D  * at the beginning of the function
+ entMove                b   // double d9 = 0\.050000000000000003D;
+ entFireImmune          ab  // find "ghast" and guess
+ entWidth               I   // = 0.6F;  * in constructor
+ entHeight              J   // = 1.8F;
+ entOn                  j   // ??? second Entity type field in Entity       (i | j)
+ entGetMountOffset      m   // \* 0\.75D;  * it is in that function
+ entSteps               L   // 59999999999999998D   * Entity class: stepCounter += (double)??.?(? * ? + ? + ?)*0.59999999999999998D;
+ entSetDead             B   // ??? public void ?() { ? = true; }
+ entOnGround            z   // "OnGround"
+ entMotionX             r   // "Motion"
+ entMotionY             s   //   ...
+ entMotionZ             t   //   ...
+ entYaw                 u   // "Rotation"
+ entPitch               v   //   ...
  entFire                c   // "Fire"
  //entAir                 *  // "Air"                                                                                            // broken!
- entFall                Q   // "FallDistance"
- entPrevX               p   // "Pos"  * ... next function has entPrevX = prevPosX = posX
- entPrevY               q   //   ...
- entPrevZ               r   //   ...
- entPrevPosX            R   //   ...
- entPrevPosY            S   //   ...
- entPrevPosZ            T   //   ...
- entPosX                s   //   ...
- entPosY                t   //   ...
- entPosZ                u   //   ...
- entAge                 Z   // [a-zA-Z]+ % 20\) \* 12 == 0
+ entFall                M   // "FallDistance"
+ entPrevX               l   // "Pos"  * ... next function has entPrevX = prevPosX = posX
+ entPrevY               m   //   ...
+ entPrevZ               n   //   ...
+ entPrevPosX            N   //   ...
+ entPrevPosY            O   //   ...
+ entPrevPosZ            P   //   ...
+ entPosX                o   //   ...
+ entPosY                p   //   ...
+ entPosZ                q   //   ...
+ entAge                 V   // [a-zA-Z]+ % 20\) \* 12 == 0
  entSetPosition         d   // [a-z]+\([a-z0-9]+, [a-z0-9]+ \+ \(double\)[a-zA-Z]+, [a-z0-9]+\);
- entMove                b   // double d9 = 0\.050000000000000003D;
 
 // = "/mob
-EntityGiant             abc // * the smaller file (big-zombie)
-EntityCreeper           abh //   ...
-EntityCaveSpider        aco //   ...
-EntityCow               adr //   ...
-EntityLavaSlime         aea //   ...
-EntitySlime             aed //   ...
-EntitySnowMan           ahd //   ...
-EntityVillager          ai  //   ...
-EntityEnderMan          aii //   ...
-EntityWolf              aik //   ...
-EntityPig               fd  //   ...
-EntitySilverFish        gl  //   ...
-EntityZombie            gr  // * the bigger file (normal zombie)
-EntitySheep             hm  //   ...
-EntityGhast             is  //   ...
-EntitySkelly            it  //   ...
-EntityPigZombie         jm  //   ...
-EntityEnderDragon       oo  //   ...
-EntityBlaze             qf  //   ...
-EntityChicken           qh  //   ...
-EntityRedCow            tb  //   ...
-EntitySpider            vq  //   ...
-EntitySquid             yv  //   ...
-EntityLiving            nq  //   ... * char
- entHealth              aM  // "Health"
- entGetMaxHealth        f_  // return [a-z_]+\(\) > 0 && [a-z_]+\(\) < [a-z_]+\(\);  * last function
-EntityPlayer            vi  //   ...   * "fly"/"cheat"   humanoid
- entBed                 bU  // return [a-zA-Z]+.[a-zA-Z]+\([a-zA-Z]+\.[a-z], [a-zA-Z]+\.[a-z], [a-zA-Z]+\.[a-z]\) ==  * ?.a, ?.b ...
- entGetIsSleeping       ar  // "Sleeping"
- entName                bJ  // "deadmau5"
- entGetSpawn            aM  // [a-zA-Z]+ = new [a-zA-Z]+\([a-zA-Z0-9]+\.[a-z]+\("SpawnX" * then search for the function that returns it.
- entInventory           by  // = new [a-z]+\(this\); * the one in constructor
- entXpP                 cf  // "XpP"
- entXpLevel             cd  // "XpLevel"
- entXpTotal             ce  // "XpTotal"
-EntityPlayerSP          di  // "portal.trigger"
-EntityClientPlayerMP    cx  // new <\.substring\(0, 119\);>  * found line is in entSendChat function
+EntityBlaze             abg //   ...
+EntityCaveSpider        fg  //   ...
+EntityChicken           qg  //   ...
+EntityCow               tj  //   ...
+EntityCreeper           wk  //   ...
+EntityEnderDragon       nt  //   ...
+EntityEnderMan          is  //   ...
+EntityGhast             te  //   ...
+EntityGiant             jr  // * the smaller file (big-zombie)
+EntityLavaSlime         afx //   ...
+EntityPig               pt  //   ...
+EntityPigZombie         ajf //   ...
+EntityRedCow            ni  //   ...
+EntitySheep             cn  //   ...
+EntitySilverFish        pq  //   ...
+EntitySkelly            wb  //   ...
+EntitySlime             agt //   ...
+EntitySnowMan           q   //   ...
+EntitySpider            bv  //   ...
+EntitySquid             aiz //   ...
+EntityVillager          dy  //   ...
+EntityWolf              wt  //   ...
+EntityZombie            agy // * the bigger file (normal zombie)
+EntityLiving            aar //   ... * char
+ entHealth              bx  // "Health"
+ entGetMaxHealth        c   // return [a-zA-Z_]+\(\) > 0 && [a-zA-Z_]+\(\) < [a-zA-Z_]+\(\);  * last function
+EntityPlayer            xb  //   ...   * "fly"/"cheat"   humanoid
+ entBed                 aL  // return [a-zA-Z]+.[a-zA-Z]+\([a-zA-Z]+\.[a-z], [a-zA-Z]+\.[a-z], [a-zA-Z]+\.[a-z]\) ==  * ?.a, ?.b ...
+ entGetIsSleeping       ay  // "Sleeping"
+ entName                aA  // "deadmau5"
+ entGetSpawn            aB  // [a-zA-Z]+ = new [a-zA-Z]+\([a-zA-Z0-9]+\.[a-z]+\("SpawnX" * then search for the function that returns it.
+ entInventory           ap  // = new [a-z]+\(this\); * the one in constructor
+ entXpP                 aW  // "XpP"
+ entXpLevel             aU  // "XpLevel"
+ entXpTotal             aV  // "XpTotal"
+EntityPlayerSP          uh  // "portal.trigger"
+EntityClientPlayerMP    afr // new <\.substring\(0, 119\);>  * found line is in entSendChat function
  entSendChat            a   //   ...     * entSendChat is actually EntityPlayer function
-EntityMinecart          vm  // "Fuel"
+EntityMinecart          ajl // "Fuel"
  entCartFuel            e   //   ...
  entCartType            a   // "Type"
-EntityItemStack         ih  // ??? "Age" ("Age" exists only for entity of type itemstack + something else that does not have item ... exp-orb?)
+EntityItemStack         fj  // "Age" (the class that also has NBT "Item")
  entItemStack           a   //   only itemstack type field there
-EntityLightningBolt     su  // 0x186a0   * mapAddEntity(new Lightning(this, int, int, int));   * in the bigger class
+EntityLightningBolt     d   // 0x186a0   * mapAddEntity(new Lightning(this, int, int, int));   * in the bigger class
 
-InventoryPlayer         x   // ~
+InventoryPlayer         yn  // ~
  //       ((ui)ent).au = ((sz)ent).at = new s((vt)val, !isMultiplayer); // This stuff is in constructor of ("humanoid") class
  invItems               a   // \[36\] * the one with 2 matches - found line assigns it
  invArmors              b   //   ... next line
  invCur                 c   // * the only int field in class
 
-Tile                    bq  // "Chest"  * NOT the one with <return "Chest">
- tileSetChanged         h   // ???  * look in the TileChest class and guess
- tilePosX               d   // "x",  * ("x", tilePosX)
- tilePosY               e   // "y",
- tilePosZ               f   // "z",
+Tile                    kf  // "Chest"  * NOT the one with <return "Chest">
+ tileSetChanged         C_  // ???  * look in the TileChest class and guess
+ tilePosX               j   // "x",  * ("x", tilePosX)
+ tilePosY               k   // "y",
+ tilePosZ               l   // "z",
  tileReadFromNBT        a   //   ~  the function above tileWriteToNBT (fairly obvious)
  tileWriteToNBT         b   // " is missing a mapping! This is a bug!"  * is in the function
  tileCreateAndLoad      c   // "Skipping TileEntity with id "  * is in the function
  
-TileFurnace             oe  // "CookTime"   * "furnace"
- tileFurnaceItems       k   // [^a-z][a-z] = new [a-z]+\[3\];
-TileChest               tu  //   ~
+TileFurnace             afd // "CookTime"   * "furnace"
+ tileFurnaceItems       d   // [^a-z][a-z] = new [a-z]+\[3\];
+TileChest               gq  //   ~
  tileChestItems         p   // [^a-z][a-z] = new [a-z]+\[36\];
-TileTrap                bp  //   ~
+TileTrap                ax  //   ~
  tileTrapItems          a   // [^a-z][a-z] = new [a-z]+\[9\];
-TileSign                u   //   ~
+TileSign                rf  //   ~
  tileText               a   // "Text
-TileSpawner             ze  // "EntityId"
+TileSpawner             cd  // "EntityId"
  tileSetMob             a   // only function that takes String ... not worth checking for changes
 
-ItemStack               dk  //   ~
+ItemStack               yq  //   ~
  stackId                c   // "id"
  stackCount             a   // "Count"
  stackDamage            e   // "Damage"
- // d // "tag" what is this for?
- stackGetIcon           b   // % 16\) \* 16\) \+ 0.0F\) / 256F;  * line before thous gets the icon nr  ... now it goes through item - living :/
+ stackGetIcon           b   // % 16\) \* 16\) \+ 0.0F\) / 256F;  * line before thous gets the icon nr  ... now it goes through some other class
 
-CraftingManager         sl  // ###   * the one with most matches
+CraftingManager         fk  // ###   * the one with most matches
  cmGetInstance          a   // * only function that returns CraftingManager
  cmList                 b   // * only list in the class
-RecipeSorter            ga  // Collections.sort   * found in CraftingManager
-ShapedRecipe            aga // for\(int i = 0; i <= 3
+RecipeSorter            hk  // Collections.sort   * found in CraftingManager
+ShapedRecipe            yl  // for\(int i = 0; i <= 3
  shapedWidth            b
  shapedHeight           c
  shapedMap              d
  shapedRes              e
-ShapelessRecipe         bc  // if\(i >= 3\)
+ShapelessRecipe         aga // if\(i >= 3\)
  shapelessList          b
  shapelessRes           a
  
-InventoryCrafting       lm //   ~
+InventoryCrafting       abe //   ~
  craftTable             a   // return "Crafting"   * itemstack there
  //   private static boolean isRecipeMatch(int i, Object grid) { return ((sh)pList.get(i)).a((ya)grid); } // function in (###) that deals with this type
- craftGetStack          d   // uncomplicated ret ItemStack from the internal array
-IRecipe                 ue  // function dealing with InventoryCrafting in CraftingManager: if(IRecipe1.a(InventoryCrafting1)) return ...;
+ craftGetStack          f_  // uncomplicated ret ItemStack from the internal array
+IRecipe                 ut  // function dealing with InventoryCrafting in CraftingManager: if(IRecipe1.a(InventoryCrafting1)) return ...;
  recipeGetIsMatch       a   //   ...
 
-WorldInfo               si  // "RandomSeed"
- worldSpawnX            b   //   ...
- worldSpawnY            c   //   ...
- worldSpawnZ            d   //   ...
- worldTime              e   //   ...
- worldRainTime          m   //   ...
- worldRaining           l   //   ...
- worldThunderTime       o   //   ...
- worldThundering        n   //   ...
+WorldInfo               ve  // "RandomSeed"
+ worldGen               b   //   ...
+  genGetName            a
+ worldSpawnX            c   //   ...
+ worldSpawnY            d   //   ...
+ worldSpawnZ            e   //   ...
+ worldTime              f   //   ...
+ worldRainTime          n   //   ...
+ worldRaining           m   //   ...
+ worldThunderTime       p   //   ...
+ worldThundering        o   //   ...
  worldGetSeed           b   //   ...   * fn
  worldGetName           j   //   ...   * fn
-World                   ry  // 0x3c6ef35f
+World                   vq  // 0x3c6ef35f
  mapGetWorldInfo        z   // function in world that returns WorldInfo type
  mapSetTile             a   // \.[a-z]+\([^?)]+[?] 8 : 0\),
  mapEntities            g   // / 16D * ?.add after the branch that has instanceof check
  mapRandom              w   // * only Random field
- // private static int getLightLevel(int x, int y, int z, int kst) { return map.c(x >> 4, z >> 4).c(x & 0xf, y, z & 0xf, kst); } // update ... ugh ... where do i find it? FIXME. OK?
  mapGetLight            c   // return [a-zA-Z]+\.[a-zA-Z]+\[[a-zA-Z]+\([a-z0-9]+, [a-z0-9]+, [a-z0-9]+\)\]; * is in function
  mapGetLightLevel       n   //   ... (is in the previous search)
  mapGetId               a   // public int [a-z]+\(int [a-z0-9]+, int [a-z0-9]+, int [a-z0-9]+\)   * first result - returns X(...).Y(...)
- mapGetMeta             d   //                                                                    * second result - has "&= 0xf;" in it
+ mapGetMeta             e   //                                                                    * second result - has "&= 0xf;" in it
  mapSetIdMetaNoUpdate   b   // public boolean [a-z]+\(int [a-z0-9]+, int [a-z0-9]+, int [a-z0-9]+, int [a-z0-9]+, int [a-z0-9]+\)  * first match - the one with bounds check
  mapSetIdMeta           d   //                                                                                                     * the one without bounds checks
  mapSetId               d   // [a-zA-Z]+\([a-zA-Z0-9]+ \+ [a-zA-Z0-9]+, [a-zA-Z0-9]+ \+ [a-zA-Z0-9]+, [a-zA-Z0-9]+ \+ [a-zA-Z0-9]+, [a-zA-Z0-9]+ < 4 \? [a-zA-Z0-9_]+ : 0\);
  mapGetChunk            c   // return [a-zA-Z]+\([a-z0-9]+ >> 4, [a-z0-9]+ >> 4\)\.[a-zA-Z]+\([a-z0-9]+ & 0xf, [a-z0-9]+, [a-z0-9]+ & 0xf\);  * first function
- mapGetChunkExists      x().c // public abstract boolean [a-z]+\(int [^,)]+, int [^,)]+\); * chunk provider, find in map that gives it
+ mapGetChunkExists      x().a // public abstract boolean [a-z]+\(int [^,)]+, int [^,)]+\); * chunk provider, find in map that gives it
  mapGetTile             b   // public <Tile>
  mapAddEntity           e   // 0x186a0   * mapAddEntity(new Lightning(this, int, int, int));
  mapUpdateArea          c   // public void [a-z]+\(int[^,]+, int[^,]+, int[^,]+, int[^,]+, int[^,]+, int[^,]+\)
  mapUpdateBlock         a   // , [a-z]+\[[a-z0-9]+\] \* 2\);
  mapEmitSound           a   // "mob.slimeattack"
+ mapGetStronghold       b   // "Stronghold",
  //    private static float getTemp() { return map.a().a == null || map.a().a.length <= 0 ? Float.NaN : (float)(map.a().a[0] * 2.0 - 1.0); }
  //    private static float getHumid() { return map.a().b == null || map.a().b.length <= 0 ? Float.NaN : (float)map.a().b[0]; }
 //Chunk
  chunkData              b   // ???
  chunkGetBlockLight     c   // >> 4\)\.[a-z]+\([a-z0-9]+ & 0xf, [a-z0-9]+, [a-z0-9]+ & 0xf, 0\);
+ 
+ChunkPosition           pr  // "Stronghold",
+ cpX                    a
+ cpY                    b
+ cpZ                    c
 
-ChatLine                ahe // / 200D; * (double)((ChatLine)chatLines.get(??)).notMessage / 200D;   * found in GuiIngame class
+ChatLine                my  // / 200D; * (double)((ChatLine)chatLines.get(??)).notMessage / 200D;   * found in GuiIngame class
  chatMessage            a   //   ...
-GuiIngame               qd  //   ...
+GuiIngame               agq //   ...
  chatLines              e   //   ...
-GuiAchievement          lk  // [a-z]+\.[a-z]+, [a-z0-9]+ \+ 8, [a-z0-9]+ \+ 8\);  * starts with theAchivement
+GuiAchievement          pg  // [a-z]+\.[a-z]+, [a-z0-9]+ \+ 8, [a-z0-9]+ \+ 8\);  * starts with theAchivement
  achievement            f   //   ...
-GuiInventory            hw  // "/gui/inventory.png"
-GuiCrafting             uv  // "/gui/crafting.png"
-ContainerWorkbench      ace //   ~
+GuiInventory            agi // "/gui/inventory.png"
+GuiCrafting             acm // "/gui/crafting.png"
+ContainerWorkbench      yk  //   ~
  benchMatrix            a   // [a-z]+, [a-z0-9]+ \+ [a-z0-9]+ \* 3, 30 \+  * starts with it
-ContainerPlayer         gd  // 18, 26
+ContainerPlayer         w   // 18, 26
  inventoryMatrix        a   // ... first parameter of the new object
 
-RayHit                  gv  // public [a-z]+\(int [^,]+, int [^,]+, int [^,]+, int [^,]+,   * last param is some class - the class itself is trivial
+RayHit                  on  // public [a-z]+\(int [^,]+, int [^,]+, int [^,]+, int [^,]+,   * last param is some class - the class itself is trivial
  rayX                   b
  rayY                   c
  rayZ                   d
  raySide                e
  
-ChunkCoordinates        dh // "SpawnX"   * the class after "new"
+ChunkCoordinates        td  // "SpawnX"   * the class after "new"
  ccX                    a
  ccY                    b
  ccZ                    c
 
 //???
- setItemLighting        rt.b // 0.20000000298023224D, 1.0D, -0.69999998807907104D  * finds the class - ignore found line
+ setItemLighting        se.b // 0.20000000298023224D, 1.0D, -0.69999998807907104D  * finds the class - ignore found line
  
 //FontRenderer
  textShow               a   // 2, [a-z]+ / 2 - 4 - 16, 0xffffff\);  * mc.mcText.textShow( ... mc.mcText.textLength ...
@@ -248,16 +254,16 @@ ChunkCoordinates        dh // "SpawnX"   * the class after "new"
  engineGetTexture       b   // GL11[^"]+"/gui/items\.png" * the one with longer selector for texture name
  
 //ItemRenderer            kj  // "/misc/water.png"
-RenderItem              iw  // \* 57\.29578F;
+RenderItem              su  // \* 57\.29578F;
  renderGuiItem          a   // ???
 
-UnexpectedThrowable     oq  // "Failed to start
-PanelCrashReport        wp  // "Center"  * adds textarea
-MinecraftAppletImpl     nm  // "Center"  * longer file
-MinecraftImpl           ahy // "Center"  * shorter file
-Packet                  gt  // "Received string length is less than zero! Weird string!"
-NBTBase                 um  // "TAG_End"
-NBTCompound             ik  // " entries"
+UnexpectedThrowable     im  // "Failed to start
+PanelCrashReport        to  // "Center"  * adds textarea
+MinecraftAppletImpl     n   // "Center"  * longer file
+MinecraftImpl           hd  // "Center"  * shorter file
+Packet                  zu  // "Received string length is less than zero! Weird string!"
+NBTBase                 fx  // "TAG_End"
+NBTCompound             abx // " entries"
  nbtSetInt              a   // "x",   * nbtSetInt("x", Tile.tilePosX)
 
 // ===== Minecraft =====
@@ -270,7 +276,7 @@ NBTCompound             ik  // " entries"
  mcGui                  s   // if\([a-z]+ instanceof * take the one which has no matches in higher steps and has more than one match
  mcGetPlayerController  c   // ??? if\([a-z0-9]+ == 0 && !\([a-zA-Z]+ instanceof * left side of instanceof   // no-result-FIXME
  mcView                 i   // \.[a-zA-Z]+\..*33000001311302185D * begins with what you seek
- mcGetRenderGlobal      g   // "Post startup"   * f = new ?(this, o); just before viewport
+ mcGetRenderGlobal      g   // "Post startup"   * mcGetRenderGlobal = new ?(this, ?); just before viewport
  mcRenderer             p   // GL11[^"]+"/gui/items\.png" * the one with longer selector for texture name
  mcEntityRenderer       u   // * only (= 32D;) type field
  mcGuiAchievement       v   // public GuiAchievement
@@ -278,13 +284,13 @@ NBTCompound             ik  // " entries"
  mcStartGame            a   // "/font/default.png" * function contains it
  mcRunTick              k   // called before "Pre render" just before continue command
  mcRespawn              a   // "tile.bed.notValid"\) * it is in the function
- mcCfg                  A   // [a-z]+ [a-zA-Z0-9]+ = new [a-z]+\([a-z]+\.[a-z]+, [a-z]+\.[a-z]+, [a-z]+\.[a-z]+\);     * old way: "/font/default.png"  * the parameter before that
+ mcCfg                  A   // [a-z]+ [a-zA-Z0-9]+ = new [a-zA-Z]+\([a-zA-Z]+\.[a-zA-Z]+, [a-zA-Z]+\.[a-zA-Z]+, [a-zA-Z]+\.[a-zA-Z]+\);
  mcScrWidth             d   //   ... ScaledResolution ??? = new ScaledResolution(?.mcCfg, ?.mcScrWidth, ?.mcScrHeight);
  mcScrHeight            e   //   ...
  mcGetRayTrace          i.a // = 6D;   * gives: "d? = d? = 6D;" a few lines above it is: mc.? = mc.i.a(d?, f?);
-EntityRenderer          adt //   ...    * prevous search result is in this class
+EntityRenderer          kz  //   ...    * prevous search result is in this class
 
-ScaledResolution        ef  //   ~
+ScaledResolution        aec //   ~
  srGetWidth             a   // / 2, 0, 0,
  srGetHeight            b   //   ... ?? width ??, ?? height ??
  srWidth                a   // glOrtho\(0\.0D, [a-z0-9]+\.
@@ -302,13 +308,13 @@ ScaledResolution        ef  //   ~
 
  mapGetChunkManager     a   // \+ 16, [a-z0-9]+ \+ 16\);  * first function     (alt: << 4\) \+ 8, 112,  * first function without parameters)
  wcmGetBiomeAt          a   //   ...                      * second function
- bioName                r   // "Sky"   * the only String field there (class is the one with colors)
+ bioName                w   // "Sky"   * the only String field there (class is the one with colors)
 
-GuiScreen               xe  // 0xc0101010, 0xd0101010
+GuiScreen               ug  // 0xc0101010, 0xd0101010
  scrGrad                a   //   ...  * found line starts with this function
  scrRect                a   // - 2, 0x80000000   * scrRect(2, srcHeight - 14, srcWidth - 2 ...
- scrHeight              n   //
- scrWidth               m   //
+ scrHeight              r   //
+ scrWidth               q   //
  scrDraw                a   //   ... previous search result is in this function
  scrKeyEvent            a   // [a-z]\(Keyboard.getEventCharacter\(\),   * begins with it
 // scrGetPauseGame        e   // "achievement.requires"  * find function that returns false

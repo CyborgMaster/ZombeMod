@@ -1,13 +1,13 @@
 
-public final class ZBFL extends ni {
+public final class ZBFL extends ahh {
 
     public ZBFL() {
         super(60);
-        c(0.6F).a(d).a("farmland"); // "farmland" * drop the last function.
+        c(0.6F).a(f).a("farmland"); // "farmland" * drop the last function.
     }
 
-    // EntityWalkingOn: function with  nextInt(4) == 0  in it
-    public void b(World map, int x, int y, int z, Entity ent) {
+    // EntityWalkingOn: function with  nextFloat  in it
+    public void a(World map, int x, int y, int z, Entity ent, float f) {
         return;
     }
 
