@@ -4,7 +4,6 @@ cls
 call recompile MinecraftAppletImpl
 call recompile MinecraftImpl
 call recompile ZRND
-call recompile ZINV
 call recompile ZER
 call recompile ZRG
 call recompile ZP250
@@ -16,7 +15,6 @@ call recompile ZBI
 call recompile ZBL
 call recompile ZBM
 call recompile ZBS
-call recompile ZBT
 call recompile ZBW
 call recompile EntityPlayer
 call recompile ZMod

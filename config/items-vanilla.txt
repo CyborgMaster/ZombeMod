@@ -122,7 +122,7 @@ enchantmentTable   64  0   0   5.0 6000.0  0.6  0   0
 brewingStandBlock   64  1   0   0.5   2.5  0.6  0   0
 cauldronBlock    64  0   0   2.0  10.0  0.6  0   0
 airPortalBlock   64 15   0  -1.0 18000000.0  0.6  0   0
-airFrame         64  1   0  -1.0 18000000.0  0.6  0   0
+endFrame         64  1   0  -1.0 18000000.0  0.6  0   0
 whiteCobble      64  0 255   3.0  45.0  0.6  0   0
 dragonEggBlock   64  1   0   3.0  45.0  0.6  0   0
 
@@ -254,6 +254,7 @@ brewingStand     64
 cauldron         64
 enderEye         64
 melonG           64
+mobEgg            1
 record13          1
 recordCat         1
 recordBlocks      1

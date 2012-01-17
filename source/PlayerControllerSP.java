@@ -7,11 +7,11 @@ import net.minecraft.client.Minecraft;
 
 // NEED TO DECOMPILE SEPARATELY WITH SAFE MODE ON
 // search: = -180F  * the smaller file
-public class dm extends aes {
+public class acq extends js {
 
     protected static final boolean zmodmarker = true;
 
-    public dm(Minecraft minecraft) {
+    public acq(Minecraft minecraft) {
         super(minecraft);
         c = -1;
         d = -1;
@@ -22,73 +22,74 @@ public class dm extends aes {
         i = 0;
     }
 
-    public void a(vi vi1) {
-        vi1.y = -180F;
+    public void a(xb xb1) {
+        xb1.u = -180F;
     }
 
-    public boolean a() {
+    public boolean d() {
         return true;
     }
 
-    public boolean a(int j, int k, int l, int i1) {
-        int j1 = a.f.a(j, k, l);
-        int k1 = a.f.d(j, k, l);
-        boolean flag = super.a(j, k, l, i1);
-        dk dk1 = a.h.aH();
-        boolean flag1 = a.h.b(yy.k[j1]);
+    public boolean b(int j, int k, int i1, int j1) {
+        int k1 = a.f.a(j, k, i1);
+        int l1 = a.f.e(j, k, i1);
+        boolean flag = super.b(j, k, i1, j1);
+        yq yq1 = a.h.au();
+        boolean flag1 = a.h.b(oe.m[k1]);
         // -----------------------------------------------------------------------------------------------------------------------
         flag = ZMod.harvestableHandle(flag);
         // -----------------------------------------------------------------------------------------------------------------------
-        if(dk1 != null) {
-            dk1.a(j1, j, k, l, ((vi) (a.h)));
-            if(dk1.a == 0) {
-                dk1.a(((vi) (a.h)));
-                a.h.aI();
+        if(yq1 != null) {
+            yq1.a(k1, j, k, i1, ((xb) (a.h)));
+            if(yq1.a == 0) {
+                yq1.a(((xb) (a.h)));
+                a.h.av();
             }
         }
         if(flag && flag1)
-            yy.k[j1].a(a.f, ((vi) (a.h)), j, k, l, k1);
+            oe.m[k1].a(a.f, ((xb) (a.h)), j, k, i1, l1);
         return flag;
     }
 
-    public void b(int j, int k, int l, int i1) {
-        if(!a.h.e(j, k, l))
+    public void a(int j, int k, int i1, int j1) {
+        if(!a.h.e(j, k, i1))
             return;
-        a.f.a(((vi) (a.h)), j, k, l, i1);
-        int j1 = a.f.a(j, k, l);
-        if(j1 > 0 && f == 0.0F)
-            yy.k[j1].b(a.f, j, k, l, ((vi) (a.h)));
-        if(j1 > 0 && yy.k[j1].a(((vi) (a.h))) >= 1.0F)
-            a(j, k, l, i1);
+        a.f.a(((xb) (a.h)), j, k, i1, j1);
+        int k1 = a.f.a(j, k, i1);
+        if(k1 > 0 && f == 0.0F)
+            oe.m[k1].a(a.f, j, k, i1, ((xb) (a.h)));
+        if(k1 > 0 && oe.m[k1].a(((xb) (a.h))) >= 1.0F)
+            b(j, k, i1, j1);
     }
 
-    public void b() {
+    public void a() {
         f = 0.0F;
         i = 0;
     }
 
-    public void c(int j, int k, int l, int i1) {
+    public void c(int j, int k, int i1, int j1) {
         if(i > 0) {
             i--;
             return;
         }
-        if(j == c && k == d && l == e) {
-            int j1 = a.f.a(j, k, l);
-            if(!a.h.e(j, k, l))
+        if(j == c && k == d && i1 == e) {
+            int k1 = a.f.a(j, k, i1);
+            if(!a.h.e(j, k, i1))
                 return;
-            if(j1 == 0)
+            if(k1 == 0)
                 return;
-            yy yy1 = yy.k[j1];
+            oe oe1 = oe.m[k1];
             // -------------------------------------------------------------------------------------------------------------------
             float add;
-            f += add = ZMod.digProgressHandle(  yy1.a(((vi) (a.h)))  , j1 );
+            f += add = ZMod.digProgressHandle(  oe1.a(((xb) (a.h)))  , k1 );
             int skip = add > 1.0f ? (int)(6f / add - 0.99999f) : 5;
             // -------------------------------------------------------------------------------------------------------------------
-            if(h % 4F == 0.0F && yy1 != null)
-                a.C.b(yy1.bX.d(), (float)j + 0.5F, (float)k + 0.5F, (float)l + 0.5F, (yy1.bX.b() + 1.0F) / 8F, yy1.bX.c() * 0.5F);
+            //f += oe1.a(((xb) (a.h)));
+            if(h % 4F == 0.0F && oe1 != null)
+                a.C.b(oe1.bZ.d(), (float)j + 0.5F, (float)k + 0.5F, (float)i1 + 0.5F, (oe1.bZ.b() + 1.0F) / 8F, oe1.bZ.c() * 0.5F);
             h++;
             if(f >= 1.0F) {
-                a(j, k, l, i1);
+                b(j, k, i1, j1);
                 f = 0.0F;
                 g = 0.0F;
                 h = 0.0F;
@@ -100,7 +101,7 @@ public class dm extends aes {
             h = 0.0F;
             c = j;
             d = k;
-            e = l;
+            e = i1;
         }
     }
 
@@ -115,37 +116,37 @@ public class dm extends aes {
         }
     }
 
-    public float c() {
+    public float b() {
         // -----------------------------------------------------------------------------------------------------------------------
         return ZMod.digReachHandle();
         // -----------------------------------------------------------------------------------------------------------------------
     }
 
-    public void a(ry ry1) {
-        super.a(ry1);
+    public void a(vq vq1) {
+        super.a(vq1);
     }
 
-    public vi b(ry ry1) {
-        vi vi1 = super.b(ry1);
-        return vi1;
+    public xb b(vq vq1) {
+        xb xb1 = super.b(vq1);
+        return xb1;
     }
 
-    public void d() {
+    public void c() {
         g = f;
         a.C.c();
     }
 
-    public boolean a(vi vi1, ry ry1, dk dk1, int j, int k, int l, int i1) {
-        int j1 = ry1.a(j, k, l);
-        if(j1 > 0 && yy.k[j1].a(ry1, j, k, l, vi1))
+    public boolean a(xb xb1, vq vq1, yq yq1, int j, int k, int i1, int j1) {
+        int k1 = vq1.a(j, k, i1);
+        if(k1 > 0 && oe.m[k1].b(vq1, j, k, i1, xb1))
             return true;
-        if(dk1 == null)
+        if(yq1 == null)
             return false;
         else
-            return dk1.a(vi1, ry1, j, k, l, i1);
+            return yq1.a(xb1, vq1, j, k, i1, j1);
     }
 
-    public boolean e() {
+    public boolean f() {
         return true;
     }
 

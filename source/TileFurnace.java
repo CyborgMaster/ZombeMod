@@ -6,203 +6,203 @@
 import java.lang.reflect.*;
 
 // search: "CookTime"
-public class oe extends bq
-    implements de {
+public class afd extends kf
+    implements ic {
 
     protected static final boolean zmodmarker = true;
 
-    public oe() {
-        k = new dk[3];
+    public afd() {
+        d = new yq[3];
         a = 0;
         b = 0;
-        j = 0;
+        c = 0;
     }
 
-    public int c() {
-        return k.length;
+    public int a() {
+        return d.length;
     }
 
-    public dk d(int i) {
-        return k[i];
+    public yq f_(int i) {
+        return d[i];
     }
 
-    public dk a(int i, int l) {
-        if(k[i] != null) {
-            if(k[i].a <= l) {
-                dk dk1 = k[i];
-                k[i] = null;
-                return dk1;
+    public yq a(int i, int j) {
+        if(d[i] != null) {
+            if(d[i].a <= j) {
+                yq yq1 = d[i];
+                d[i] = null;
+                return yq1;
             }
-            dk dk2 = k[i].a(l);
-            if(k[i].a == 0)
-                k[i] = null;
-            return dk2;
+            yq yq2 = d[i].a(j);
+            if(d[i].a == 0)
+                d[i] = null;
+            return yq2;
         } else {
             return null;
         }
     }
 
-    public void a(int i, dk dk1) {
-        k[i] = dk1;
-        if(dk1 != null && dk1.a > e())
-            dk1.a = e();
+    public void a(int i, yq yq1) {
+        d[i] = yq1;
+        if(yq1 != null && yq1.a > d())
+            yq1.a = d();
     }
 
-    public String d() {
+    public String c() {
         return "Furnace";
     }
 
-    public void b(ik ik1) {
-        super.b(ik1);
-        yi yi1 = ik1.l("Items");
-        k = new dk[c()];
-        for(int i = 0; i < yi1.c(); i++) {
-            ik ik2 = (ik)yi1.a(i);
-            byte byte0 = ik2.c("Slot");
-            if(byte0 >= 0 && byte0 < k.length)
-                k[byte0] = dk.a(ik2);
+    public void a(abx abx1) {
+        super.a(abx1);
+        mu mu1 = abx1.m("Items");
+        d = new yq[a()];
+        for(int i = 0; i < mu1.d(); i++) {
+            abx abx2 = (abx)mu1.a(i);
+            byte byte0 = abx2.d("Slot");
+            if(byte0 >= 0 && byte0 < d.length)
+                d[byte0] = yq.a(abx2);
         }
 
-        a = ik1.d("BurnTime");
-        j = ik1.d("CookTime");
-        b = a(k[1]);
+        a = abx1.e("BurnTime");
+        c = abx1.e("CookTime");
+        b = a(d[1]);
     }
 
-    public void a(ik ik1) {
-        super.a(ik1);
-        ik1.a("BurnTime", (short)a);
-        ik1.a("CookTime", (short)j);
-        yi yi1 = new yi();
-        for(int i = 0; i < k.length; i++)
-            if(k[i] != null) {
-                ik ik2 = new ik();
-                ik2.a("Slot", (byte)i);
-                k[i].b(ik2);
-                yi1.a(ik2);
+    public void b(abx abx1) {
+        super.b(abx1);
+        abx1.a("BurnTime", (short)a);
+        abx1.a("CookTime", (short)c);
+        mu mu1 = new mu();
+        for(int i = 0; i < d.length; i++)
+            if(d[i] != null) {
+                abx abx2 = new abx();
+                abx2.a("Slot", (byte)i);
+                d[i].b(abx2);
+                mu1.a(abx2);
             }
 
-        ik1.a("Items", yi1);
+        abx1.a("Items", mu1);
     }
 
-    public int e() {
+    public int d() {
         return 64;
     }
 
-    public int a(int i) {
+    public int b(int i) {
         // -----------------------------------------------------------------------------------------------------------------------
-        return (j * i) / ZMod.furnaceSmeltTimeHandle();
+        return (c * i) / ZMod.furnaceSmeltTimeHandle();
         // -----------------------------------------------------------------------------------------------------------------------
     }
 
-    public int b(int i) {
+    public int c(int i) {
         // -----------------------------------------------------------------------------------------------------------------------
         if(b == 0) b = ZMod.furnaceSmeltTimeHandle();
         // -----------------------------------------------------------------------------------------------------------------------
         return (a * i) / b;
     }
 
-    public boolean a() {
+    public boolean g() {
         return a > 0;
     }
 
-    public void b() {
+    public void k_() {
         boolean flag = a > 0;
         boolean flag1 = false;
         // -----------------------------------------------------------------------------------------------------------------------
-        if(a>0 && ZMod.furnaceUseFuelHandle(  a, p() )) a--;
+        if(a>0 && ZMod.furnaceUseFuelHandle(  a, o() )) a--;
         // -----------------------------------------------------------------------------------------------------------------------
-        if(!c.I) {
-            if(a == 0 && p()) {
-                b = a = a(k[1]);
+        if(!i.I) {
+            if(a == 0 && o()) {
+                b = a = a(d[1]);
                 if(a > 0) {
                     flag1 = true;
-                    if(k[1] != null) {
+                    if(d[1] != null) {
                         // -------------------------------------------------------------------------------------------------------
-                        k[1] = ZMod.furnaceDecFuelHandle( k[1] ); // update
+                        d[1] = ZMod.furnaceDecFuelHandle( d[1] ); // update
                         // -------------------------------------------------------------------------------------------------------
                     }
                 }
             }
-            if(a() && p()) {
-                j++;
+            if(g() && o()) {
+                c++;
                 // ---------------------------------------------------------------------------------------------------------------
-                if(j >= ZMod.furnaceSmeltTimeHandle()) {
+                if(c >= ZMod.furnaceSmeltTimeHandle()) {
                 // ---------------------------------------------------------------------------------------------------------------
-                    j = 0;
-                    o();
+                    c = 0;
+                    n();
                     flag1 = true;
                 }
             // -------------------------------------------------------------------------------------------------------------------
             } else if(ZMod.furnaceWasteHandle()) {
             // -------------------------------------------------------------------------------------------------------------------
-                j = 0;
+                c = 0;
             }
             if(flag != (a > 0)) {
                 flag1 = true;
-                eu.a(a > 0, c, d, e, f);
+                afl.a(a > 0, i, j, k, l);
             }
         }
         if(flag1)
-            h();
+            C_();
     }
 
-    private boolean p() {
-        if(k[0] == null)
+    private boolean o() {
+        if(d[0] == null)
             return false;
         // -----------------------------------------------------------------------------------------------------------------------
-        dk dk1 = ZMod.furnaceSmeltingHandle(  k[0].a().bM  );
-        if(dk1 == null) dk1 = mt.a().a(k[0].a().bM);
+        yq yq1 = ZMod.furnaceSmeltingHandle(  d[0].a().bO  );
+        if(yq1 == null) yq1 = ds.a().a(d[0].a().bO);
         // -----------------------------------------------------------------------------------------------------------------------
-        if(dk1 == null)
+        if(yq1 == null)
             return false;
-        if(k[2] == null)
+        if(d[2] == null)
             return true;
-        if(!k[2].a(dk1))
+        if(!d[2].a(yq1))
             return false;
-        if(k[2].a < e() && k[2].a < k[2].c())
+        if(d[2].a < d() && d[2].a < d[2].c())
             return true;
-        return k[2].a < dk1.c();
+        return d[2].a < yq1.c();
     }
 
-    public void o() {
-        if(!p())
+    public void n() {
+        if(!o())
             return;
         // -----------------------------------------------------------------------------------------------------------------------
-        dk dk1 = ZMod.furnaceSmeltingHandle(  k[0].a().bM  );
-        if(dk1 == null) dk1 = mt.a().a(k[0].a().bM);
+        yq yq1 = ZMod.furnaceSmeltingHandle(  d[0].a().bO  );
+        if(yq1 == null) yq1 = ds.a().a(d[0].a().bO);
         // -----------------------------------------------------------------------------------------------------------------------
-        if(k[2] == null)
-            k[2] = dk1.k();
+        if(d[2] == null)
+            d[2] = yq1.k();
         else
-        if(k[2].c == dk1.c)
-            k[2].a++;
-        k[0].a--;
-        if(k[0].a <= 0)
-            k[0] = null;
+        if(d[2].c == yq1.c)
+            d[2].a++;
+        d[0].a--;
+        if(d[0].a <= 0)
+            d[0] = null;
     }
 
     // ===========================================================================================================================
     private static boolean mlInit = false;
     private static Class mlClass;
     private static Method mlMethod;
-    private int a(dk dk1) {
-        if(dk1 == null)
+    private int a(yq yq1) {
+        if(yq1 == null)
             return 0;
-        int i = dk1.a().bM;
+        int i = yq1.a().bO;
         // -----------------------------------------------------------------------------------------------------------------------
         int fuel = ZMod.furnaceFuelHandle(  i  ); if(fuel!=0) return fuel; //
         if(i < 256 && Block.blockArr[i].blockMat == Material.d) return ZMod.furnaceWoodFuelHandle(); //
         // -----------------------------------------------------------------------------------------------------------------------
-        if(i == acy.C.bM)
+        if(i == ww.D.bO)
             return 100;
-        if(i == acy.l.bM)
+        if(i == ww.m.bO)
             return 1600;
-        if(i == acy.ax.bM)
+        if(i == ww.ay.bO)
             return 20000;
-        if(i == yy.y.bM)
+        if(i == oe.A.bO)
             return 100;
         // -----------------------------------------------------------------------------------------------------------------------
-        if(i == acy.bn.bM) return 2400; //
+        if(i == ww.bo.bO) return 2400; //
         try {
             if(!mlInit) {
                 mlInit = true;
@@ -216,18 +216,18 @@ public class oe extends bq
     }
     // ===========================================================================================================================
 
-    public boolean b_(vi vi1) {
-        if(c.b(d, e, f) != this)
+    public boolean a_(xb xb1) {
+        if(i.b(j, k, l) != this)
             return false;
-        return vi1.f((double)d + 0.5D, (double)e + 0.5D, (double)f + 0.5D) <= 64D;
+        return xb1.f((double)j + 0.5D, (double)k + 0.5D, (double)l + 0.5D) <= 64D;
     }
 
-    public void j() {
+    public void e() {
     }
 
-    public void k() {
+    public void D_() {
     }
 
-    private dk k[];
-    public int a, b, j;
+    private yq d[];
+    public int a, b, c;
 }

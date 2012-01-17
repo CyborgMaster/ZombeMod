@@ -1,11 +1,11 @@
 
 import java.util.Random;
 
-public final class ZBM extends kk {
+public final class ZBM extends cg {
 
     public ZBM() {
         super(52, 65);
-        c(5F).a(g).a("mobSpawner").r(); // "mobSpawner"
+        c(5F).a(i).a("mobSpawner").r(); // "mobSpawner"
     }
     
     public void blockOnAdd(World map, int x, int y, int z) {

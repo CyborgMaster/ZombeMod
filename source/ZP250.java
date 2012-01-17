@@ -15,7 +15,7 @@ public class ZP250 extends Packet {
 		NBTCompound.a(nbtData, out); // NBT stuff probably never changes
 	}
 
-	public void a(fe handler) { // UPDATE
+	public void a(nh handler) { // UPDATE
 		ZMod.packet250Handle(this);
 	}
 
@@ -24,6 +24,7 @@ public class ZP250 extends Packet {
 	}
 
 	public static void init(){
-		a(250, true, true, ZP250.class); // found in parent class
+		// do nothing
+        //a(250, true, true, ZP250.class); // found in parent class
 	}
 }

@@ -780,7 +780,7 @@ optInfoHideAchievement= no
 optInfoShowItem       = yes
 
 # Max range for players to be show on keyInfoPlayersToggle list.  [10.0 .. 1000.0]
-optInfoRangeMax       = 10.0
+optInfoRangeMax       = 1000.0
 
 # Players termed to be near in keyInfoPlayersToggle list.  [1.0 .. 1000.0]
 optInfoRangeNear      = 50.0
