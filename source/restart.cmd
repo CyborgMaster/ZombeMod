@@ -1,5 +1,5 @@
 @echo off
-cls
+::cls
 
 call config.cmd
 SETLOCAL ENABLEDELAYEDEXPANSION
@@ -12,7 +12,7 @@ mkdir tmp
 mkdir class_in\net\minecraft\client
 mkdir source
 
-unzip "%APPDATA%\.minecraft\bin\minecraft.jar" *.class -d "tmp"
+unzip "%APPDATA%\.minecraft\bin\minecraft.jar" "*.class" -d "tmp"
 copy "%APPDATA%\.minecraft\bin\jinput.jar" class_in
 copy "%APPDATA%\.minecraft\bin\lwjgl.jar" class_in
 copy "%APPDATA%\.minecraft\bin\lwjgl_util.jar" class_in
