@@ -2,7 +2,7 @@
 ::cls
 
 del /Q class_out\*
-del mod.zip
+del JMod.zip
 
 call recompile MinecraftAppletImpl
 call recompile MinecraftImpl
@@ -28,4 +28,4 @@ call recompile RenderLiving
 call recompile TileFurnace
 call recompile WorldProvider
 
-zip -j mod.zip class_out/*
+zip -j JMod.zip class_out/*
