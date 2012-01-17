@@ -1,5 +1,8 @@
 @echo off
-cls
+::cls
+
+del /Q class_out\*
+del mod.zip
 
 call recompile MinecraftAppletImpl
 call recompile MinecraftImpl
@@ -24,3 +27,5 @@ call recompile PlayerControllerSP
 call recompile RenderLiving
 call recompile TileFurnace
 call recompile WorldProvider
+
+zip -j mod.zip class_out/*
