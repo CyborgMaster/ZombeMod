@@ -27,5 +27,5 @@ set list=
 for %%i in (tmp\net\minecraft\client\*.class) do set list=!list!;%%~ni
 java Obfus tmp\net\minecraft\client class_in\net\minecraft\client %list%
 
-jad -nonlb -pv -d source -o -r -s .java -stat class_in\*.class
-jad -nonlb -pv -d source -o -r -s .java -stat class_in\net\minecraft\client\*.class
+::jad -nonlb -pv -d source -o -r -s .java -stat class_in\*.class
+::jad -nonlb -pv -d source -o -r -s .java -stat class_in\net\minecraft\client\*.class
